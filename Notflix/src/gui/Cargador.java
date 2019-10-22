@@ -9,88 +9,151 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 public class Cargador extends JPanel {
-    private JButton jcomp1;
-    private JButton jcomp2;
+    private JButton bAceptar;
+    private JButton bCancelar;
     private JTextField tNombre;
-    private JTextField jcomp4;
+    private JTextField tDirector;
     private JTextField tAño;
     private JLabel lNombre;
-    private JComboBox jcomp7;
+    private JComboBox cBTags;
     private JLabel lDirector;
-    private JLabel cTags;
+    private JLabel lTags;
     private JLabel lAño;
     private JButton bImagen;
-    private JButton jcomp12;
+    private JButton bMedia;
     private JTextArea aTimagen;
     private JTextArea aTarchi;
-    private JButton jcomp15;
+    private JButton bAñadirTag;
+    private JFrame frame;
 
     public Cargador() {
         //construct preComponents
+    	frame = new JFrame ("Cragador");
+    	frame.setDefaultCloseOperation (JFrame.DISPOSE_ON_CLOSE);
         String[] jcomp7Items = {"Item 1", "Item 2", "Item 3"};
 
         //construct components
-        jcomp1 = new JButton ("Aceptar");
-        jcomp2 = new JButton ("Cancelar");
+        bAceptar = new JButton ("Aceptar");
+        bCancelar = new JButton ("Cancelar");
         tNombre = new JTextField (5);
-        jcomp4 = new JTextField (5);
+        tDirector = new JTextField (5);
         tAño = new JTextField (5);
         lNombre = new JLabel ("Nombre");
-        jcomp7 = new JComboBox (jcomp7Items);
+        cBTags = new JComboBox (jcomp7Items);
         lDirector = new JLabel ("Director");
-        cTags = new JLabel ("Tags");
+        lTags = new JLabel ("Tags");
         lAño = new JLabel ("Año");
         bImagen = new JButton ("Seleccionar Imagen");
-        jcomp12 = new JButton ("Selecionar Media");
+        bMedia = new JButton ("Selecionar Media");
         aTimagen = new JTextArea (5, 5);
         aTarchi = new JTextArea (5, 5);
-        jcomp15 = new JButton ("Añadir tags");
+        bAñadirTag = new JButton ("Añadir tags");
 
         //adjust size and set layout
-        setPreferredSize (new Dimension (944, 574));
-        setLayout (null);
+        frame.setPreferredSize (new Dimension (944, 574));
+        frame.setLayout (null);
+        frame.setSize(new Dimension (944, 574));
+        frame.setResizable(false);
 
         //add components
-        add (jcomp1);
-        add (jcomp2);
-        add (tNombre);
-        add (jcomp4);
-        add (tAño);
-        add (lNombre);
-        add (jcomp7);
-        add (lDirector);
-        add (cTags);
-        add (lAño);
-        add (bImagen);
-        add (jcomp12);
-        add (aTimagen);
-        add (aTarchi);
-        add (jcomp15);
-
+        frame.add (bAceptar);
+        frame.add (bCancelar);
+        frame.add (bImagen);
+        frame.add (bMedia);
+        frame.add (bAñadirTag);
+        
+        frame.add (tNombre);
+        frame.add (tDirector);
+        frame.add (tAño);
+        
+        frame.add (cBTags);
+        
+        frame.add (lNombre);
+        frame.add (lDirector);
+        frame.add (lTags);
+        frame.add (lAño); 
+        
+        frame.add (aTimagen); //area de la imagen
+        frame.add (aTarchi);	//que archivo está cargado
+        
+        bAceptar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new Error("Falta implementar aceptar");
+				
+				
+			}
+		});
+        
+        bAñadirTag.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new Error("Falta implementar anadir tags");
+				
+			}
+		});
+        
+        bImagen.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new Error("Falta implementar anadir imagen");
+				
+			}
+		});
+        
+        bMedia.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new Error("Falta implementar media imagen");
+				
+			}
+		});
+        
+        bCancelar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cerrar();
+				
+			}
+		});
+        
+        
+        
         //set component bounds (only needed by Absolute Positioning)
-        jcomp1.setBounds (100, 450, 150, 50);
-        jcomp2.setBounds (300, 450, 150, 50);
+        bAceptar.setBounds (100, 450, 150, 50);
+        bCancelar.setBounds (300, 450, 150, 50);
         tNombre.setBounds (100, 50, 350, 50);
-        jcomp4.setBounds (100, 150, 350, 50);
+        tDirector.setBounds (100, 150, 350, 50);
         tAño.setBounds (100, 350, 350, 50);
         lNombre.setBounds (100, 25, 100, 25);
-        jcomp7.setBounds (100, 250, 235, 50);
+        cBTags.setBounds (100, 250, 235, 50);
         lDirector.setBounds (100, 125, 100, 25);
-        cTags.setBounds (100, 225, 100, 25);
+        lTags.setBounds (100, 225, 100, 25);
         lAño.setBounds (100, 325, 100, 25);
         bImagen.setBounds (490, 375, 300, 25);
-        jcomp12.setBounds (490, 475, 300, 25);
+        bMedia.setBounds (490, 475, 300, 25);
         aTimagen.setBounds (490, 50, 300, 330);
         aTarchi.setBounds (490, 430, 300, 55);
-        jcomp15.setBounds (350, 250, 100, 50);
-    }
-
-
-    public static void main (String[] args) {
-        JFrame frame = new JFrame ("MyPanel");
-        frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().add (new Cargador());
-        frame.pack();
+        bAñadirTag.setBounds (350, 250, 100, 50);
+        
         frame.setVisible (true);
     }
+
+    private void cerrar(){
+    	this.frame.dispose();
+    }
+
+//    public static void main (String[] args) {
+//        JFrame frame = new JFrame ("MyPanel");
+//        frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
+//        frame.getContentPane().add (new Cargador());
+//        frame.pack();
+//        frame.setVisible (true);
+//    }
+    
 }

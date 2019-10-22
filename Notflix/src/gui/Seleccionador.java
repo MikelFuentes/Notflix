@@ -37,6 +37,7 @@ public class Seleccionador extends JPanel {
         areaTags.setEnabled (false);
         SpList = new JScrollPane(lBuscar);
         
+        
         SpList.setViewportView(lBuscar);
         
         setPreferredSize (new Dimension (756, 574));
@@ -63,6 +64,15 @@ public class Seleccionador extends JPanel {
         bEditar.setBounds (305, 485, 150, 30);
         bAnadir.setBounds (515, 485, 150, 30);
         SpList.setBounds(80, 110, 250, 350);
+        
+        bAnadir.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new Cargador();
+				
+			}
+		});
     }
 
 
@@ -72,5 +82,6 @@ public class Seleccionador extends JPanel {
         frame.getContentPane().add (new Seleccionador());
         frame.pack();
         frame.setVisible (true);
+        frame.setResizable(false);
     }
 }

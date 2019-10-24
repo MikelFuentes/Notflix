@@ -49,13 +49,15 @@ public class Cargador extends JPanel {
         aTarchi = new JTextArea (5, 5);
         bAñadirTag = new JButton ("Añadir tags");
 
-        //adjust size and set layout
+        
         frame.setPreferredSize (new Dimension (944, 574));
         frame.setLayout (null);
         frame.setSize(new Dimension (944, 574));
         frame.setResizable(false);
-
-        //add components
+        
+        aTarchi.setEditable(false);
+        aTimagen.setEditable(false);
+        
         frame.add (bAceptar);
         frame.add (bCancelar);
         frame.add (bImagen);
@@ -73,7 +75,7 @@ public class Cargador extends JPanel {
         frame.add (lTags);
         frame.add (lAño); 
         
-        frame.add (aTimagen); //area de la imagen
+        frame.add (aTimagen);	//area de la imagen
         frame.add (aTarchi);	//que archivo está cargado
         
         bAceptar.addActionListener(new ActionListener() {

@@ -5,8 +5,13 @@ package gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.FileNotFoundException;
 import javax.swing.*;
 import javax.swing.event.*;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Cargador extends JPanel {
     private JButton bAceptar;
@@ -107,12 +112,29 @@ public class Cargador extends JPanel {
 		});
         
         bMedia.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				new Error("Falta implementar media imagen");
-				
-			}
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser(".");   //Create this to start an explorer
+                FileFilter filter = new FileNameExtensionFilter("Archivos multimedia (.mp4, .vlc)", "mp4","vlc"); //filter files to show only media files
+                fileChooser.setFileFilter(filter);
+                int valor = fileChooser.showOpenDialog(fileChooser); //open file explorer
+                if(valor == JFileChooser.APPROVE_OPTION){            // if a file is chosen
+                    String path = fileChooser.getSelectedFile().getAbsolutePath();
+//                    File f = new File(path);
+                    aTarchi.setText(path);
+//                    try{
+//                        File f = new File(path);
+//                        //aTarchi.setText(path);
+//                    }
+//                    catch (FileNotFoundException err){ //chosen file couldn't be found, it isn't thrown in the Error class
+//                        new Error("Fichero no encontrado.");
+//
+//                    }
+                } else { //just closed without selecting file
+                    new Error("No se ha seleccionado ningun archivo.");
+                }
+            }
 		});
         
         bCancelar.addActionListener(new ActionListener() {

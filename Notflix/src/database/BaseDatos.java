@@ -38,13 +38,27 @@ public class BaseDatos {
             System.out.println(res);
 
             statement.executeUpdate("create table peliculas(" +
-                    "" +
+                    "id_peli int NOT NULL AUTO_INCREMENT,\n" +
+                    "nombre VARCHAR(100) NOT NULL,\n" +
+                    "fecha VARCHAR(100) NOT NULL,\n" +
+                    "director VARCHAR(100) NOT NULL,\n" +
+                    "archivo VARCHAR(100) NOT NULL,\n" +
+                    "link VARCHAR(120) NOT NULL,\n" +
+                    "fk_tags int NOT NULL," +
+
+                    "PRIMARY KEY (id_peli),\n" +
+                    "FOREIGN KEY (fk_tags) REFERENCES tags(id_tag)" +
                     ");");
 //            res = statement.executeUpdate("insert into peliculas () values ('')");
 //            System.out.println(res);
 
             statement.executeUpdate("create table usuarios(" +
-                    "" +
+                    "id_usuario int NOT NULL AUTO_INCREMENT,\n" +
+                    "nombre VARCHAR(100) NOT NULL,\n" +
+                    "password VARCHAR(100) NOT NULL,\n" +
+                    "rango int NOT NULL,\n" +
+
+                    "PRIMARY KEY (id_usuario)" +
                     ");");
 //            res = statement.executeUpdate("insert into usuarios () values ('')");
 //            System.out.println(res);

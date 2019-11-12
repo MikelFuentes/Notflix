@@ -4,11 +4,20 @@ package gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
 import javax.swing.event.*;
+import javax.swing.plaf.metal.DefaultMetalTheme;
 
+import database.Sesion;
+
+@SuppressWarnings("serial")
 public class Seleccionador extends JPanel {
-    private JList lBuscar;
+	
+	DefaultListModel<String> model = new DefaultListModel<>();
+    private JList<String> lBuscar;
+    
     private JTextField tBuscar;
     private JButton bBuscar;
     private JButton bVer;
@@ -17,13 +26,21 @@ public class Seleccionador extends JPanel {
     private JButton bEditar;
     private JButton bAnadir;
     private JScrollPane SpList;
+    
+    
 
-    public Seleccionador() {
+    public Seleccionador( Sesion sesion ) {
        
-        String[] lBuscarItems = {"Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9", "Item 10" ,"Item 11" ,"Item 12" ,"Item 13","Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9", "Item 10" ,"Item 11" ,"Item 12" ,"Item 13"};
+       // String[] lBuscarItems = {"Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9", "Item 10" ,"Item 11" ,"Item 12" ,"Item 13","Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9", "Item 10" ,"Item 11" ,"Item 12" ,"Item 13"};
+    	ArrayList<String> peli_ini = sesion.buscar("%");
+    	
 
-
-        lBuscar = new JList (lBuscarItems);
+        lBuscar = new JList<>(model);
+        
+        for(int i = 0; i < peli_ini.size(); i++) {
+        	model.addElement(peli_ini.get(i));
+        }
+        
         tBuscar = new JTextField (5);
         bBuscar = new JButton ("Buscar");
         bVer = new JButton ("Ver");
@@ -72,13 +89,34 @@ public class Seleccionador extends JPanel {
 				
 			}
 		});
+        bBuscar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String busqueda = tBuscar.getText();
+				ArrayList<String> peli_ini = sesion.buscar("%"+ busqueda + "%");
+				
+				model.removeAllElements();
+				
+				for(int i = 0; i < peli_ini.size(); i++) {
+		        	model.addElement(peli_ini.get(i));
+		        }
+
+			}
+		});
     }
+    // TODO	HACER UN METODO PARA ESTO for(int i = 0; i < peli_ini.size(); i++) {
+    //	model.addElement(peli_ini.get(i));
+    //}
 
 
     public static void main (String[] args) {
+    	Sesion sesion = new Sesion();
+    	sesion.Crear();
+    	
         JFrame frame = new JFrame ("Seleccionador");
         frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().add (new Seleccionador());
+        frame.getContentPane().add (new Seleccionador(sesion));
         frame.pack();
         frame.setVisible (true);
         frame.setResizable(false);

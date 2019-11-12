@@ -67,12 +67,18 @@ public class BaseDatos {
             		+"fecha varchar(150) NOT NULL,"
             		+"director varchar(150) NOT NULL,"
             		+"archivo varchar(150) NOT NULL,"
-            		+"link varchar(120) NOT NULL,"
+            		+"imagen varchar(150) NOT NULL,"
+            	//	+"link varchar(120) NOT NULL,"
             		+"fk_tags INTEGER NOT NULL,"
             		+"FOREIGN KEY(fk_tags) REFERENCES tags(id_tag)"
             		+" );");
             
             System.out.println("paso2");
+            res = statement.executeUpdate("INSERT INTO peliculas (nombre, fecha, director, archivo, imagen, fk_tags)"
+            		+ "VALUES('titanic', '02-02-1999', 'Mikel', './peliculas/titanic.mp4', 'http://foto.com/titanic', 1);");
+            
+            res = statement.executeUpdate("INSERT INTO peliculas (nombre, fecha, director, archivo, imagen, fk_tags)"
+            		+ "VALUES('el padrino', '02-02-1988', 'Pepe', './peliculas/padrino.mp4', 'http://foto.com/padrino', 2);");
 //            res = statement.executeUpdate("insert into peliculas () values ('')");
 //            System.out.println(res);
 

@@ -40,13 +40,13 @@ public class BaseDatos {
             System.out.println("pasooo");
             
             int res = statement.executeUpdate("insert into tags (nombre_tag) values ('terror')");
-            System.out.println(res);
+            System.out.println("1");
             res = statement.executeUpdate("insert into tags (nombre_tag) values ('accion')");
-            System.out.println(res);
+            System.out.println("2");
             res = statement.executeUpdate("insert into tags (nombre_tag) values ('romance')");
-            System.out.println(res);
-            res = statement.executeUpdate("insert into tags (nombre_tag) values ('terror;romance')");
-            System.out.println(res);
+            System.out.println("3");
+            res = statement.executeUpdate("insert into tags (nombre_tag) values ('suspense')");
+            System.out.println("4");
 
 //            statement.executeUpdate("create table peliculas(" +
 //                    "id_peli int NOT NULL AUTO_INCREMENT,\n" +
@@ -64,21 +64,22 @@ public class BaseDatos {
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS peliculas ("
             		+"id_peli INTEGER PRIMARY KEY AUTOINCREMENT,"
             		+"nombre varchar(150) NOT NULL,"
-            		+"fecha varchar(150) NOT NULL,"
+            		+"anyo varchar(4) NOT NULL,"
             		+"director varchar(150) NOT NULL,"
             		+"archivo varchar(150) NOT NULL,"
-            		+"imagen varchar(150) NOT NULL,"
-            	//	+"link varchar(120) NOT NULL,"
-            		+"fk_tags INTEGER NOT NULL,"
-            		+"FOREIGN KEY(fk_tags) REFERENCES tags(id_tag)"
+            		+"imagen varchar(150) NOT NULL"
             		+" );");
+//            		+"fk_tags INTEGER NOT NULL,"
+//            		+"FOREIGN KEY(fk_tags) REFERENCES tags(id_tag)"
+            		
             
             System.out.println("paso2");
-            res = statement.executeUpdate("INSERT INTO peliculas (nombre, fecha, director, archivo, imagen, fk_tags)"
-            		+ "VALUES('titanic', '02-02-1999', 'Mikel', './peliculas/titanic.mp4', 'http://foto.com/titanic', 1);");
-            
-            res = statement.executeUpdate("INSERT INTO peliculas (nombre, fecha, director, archivo, imagen, fk_tags)"
-            		+ "VALUES('el padrino', '02-02-1988', 'Pepe', './peliculas/padrino.mp4', 'http://foto.com/padrino', 2);");
+            res = statement.executeUpdate("INSERT INTO peliculas (nombre, anyo, director, archivo, imagen)"
+            		+ "VALUES('titanic', '1999', 'Mikel', './peliculas/titanic.mp4', 'http://foto.com/titanic');");
+            System.out.println("1");
+            res = statement.executeUpdate("INSERT INTO peliculas (nombre, anyo, director, archivo, imagen)"
+            		+ "VALUES('el padrino', '1988', 'Pepe', './peliculas/padrino.mp4', 'http://foto.com/padrino');");
+            System.out.println("2");
 //            res = statement.executeUpdate("insert into peliculas () values ('')");
 //            System.out.println(res);
 
@@ -90,12 +91,29 @@ public class BaseDatos {
 //
 //                    "PRIMARY KEY (id_usuario)" +
 //                    ");");
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS tags_peliculas ("
+            		+ "id_pelis INTEGER,"
+            		+ "id_tags INTEGER,"
+            		+ "FOREIGN KEY (id_pelis) REFERENCES peliculas(id_peli),"
+            		+ "FOREIGN KEY (id_tags) REFERENCES tags(id_tag)"            		
+            		+ ");");
+            System.out.println("creo tabla intermedia");
+            res = statement.executeUpdate("INSERT INTO tags_peliculas(id_pelis, id_tags)"
+            		+ "VALUES(1,1);");
+            res = statement.executeUpdate("INSERT INTO tags_peliculas(id_pelis, id_tags)"
+            		+ "VALUES(1,2);");
+            res = statement.executeUpdate("INSERT INTO tags_peliculas(id_pelis, id_tags)"
+            		+ "VALUES(2,4);");
+            //TODO Tengo dudas si hay que introducir la tabla intermedia.
+            
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS usuarios ("
             		+"id_usuario INTEGER PRIMARY KEY AUTOINCREMENT,"
             		+"nombre VARCHAR(100) NOT NULL,"
             		+"password VARCHAR(100) NOT NULL,"
             		+"rango int NOT NULL"
             		+");");
+            
+            
             System.out.println("paso 3");
             
 //            res = statement.executeUpdate("insert into usuarios () values ('')");

@@ -40,6 +40,31 @@ public class Sesion {
 		}
 		return resul;
 		
+	
+		
+	}
+	public ArrayList buscar2 (String d) {
+		String qwer = "SELECT * from peliculas where nombre LIKE 'd' ;";
+		qwer = qwer.replace("d", d);
+		
+		System.out.println(qwer);
+		Pelicula peli_datos;
+		ArrayList<Pelicula> resul = new ArrayList<>();
+		try {
+			PreparedStatement sta = con.prepareStatement(qwer);
+			ResultSet set = sta.executeQuery();
+			while(set.next()) {
+			
+			//	peli_datos = new Pelicula(set.getInt("id_peli"), set.getString("nombre"), set.getString("anyo"), set.getString("director"), set.getString("archivo"), set.getString("imagen"));
+//				resul.add(peli_datos);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return resul;
+		
 	}
 
 	

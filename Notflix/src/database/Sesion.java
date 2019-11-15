@@ -1,5 +1,7 @@
 package database;
 
+import gui.Error;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -43,6 +45,45 @@ public class Sesion {
 	
 		
 	}
+
+	public void meter_peli (String nom, String dir, String ruta_archivo, String ruta_imagen, ArrayList<Integer> id_tags, String año){
+		String statement = "INSERT INTO peliculas (nombre, anyo, director, archivo, imagen) VALUES ('n','d','ra','ri','a');";
+		statement = statement.replace("n",nom);
+		statement = statement.replace("d",dir);
+		statement = statement.replace("ra",ruta_archivo);
+		statement = statement.replace("ri",ruta_imagen);
+		statement = statement.replace("a",año);
+
+
+
+		try{
+			PreparedStatement state = con.prepareStatement(statement);
+			state.executeUpdate();
+
+			String query = "SELECT nombre from peliculas where nombre = '"+ nom +"' ;";
+			state = con.prepareStatement(query);
+			ResultSet id_pelicula = state.executeQuery();
+			String  id_peli = id_pelicula.getString("id_peli");
+
+			String statement_tags = "insert into tags_peliculas(id_pelis, id_tags) values ('id_p', 'id_t')";
+			statement_tags = statement_tags.replace("id_p", id_peli);
+
+			for (int i = 0; i<id_tags.size(); i++) {
+				String statement_tag = statement_tags.replace("id_t", id_tags.get(i).toString());
+				state = con.prepareStatement(statement_tag);
+				state.executeUpdate();
+			}
+			state.executeUpdate();
+			state = con.prepareStatement(statement_tags);
+			state.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			new Error("El programa se ha ido a cagar");
+			e.printStackTrace();
+		}
+	}
+
 	public ArrayList buscar2 (String d) {
 		String qwer = "SELECT * from peliculas where nombre LIKE 'd' ;";
 		qwer = qwer.replace("d", d);

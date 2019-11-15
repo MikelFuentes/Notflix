@@ -1,6 +1,8 @@
 package gui;
 
 
+import database.Sesion;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
@@ -29,7 +31,7 @@ public class Cargador extends JPanel {
     private JButton bAñadirTag;
     private JFrame frame;
 
-    public Cargador() {
+    public Cargador(Sesion sesion) {
         
     	frame = new JFrame ("Cragador");
     	frame.setDefaultCloseOperation (JFrame.DISPOSE_ON_CLOSE);
@@ -86,8 +88,8 @@ public class Cargador extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new Error("Falta implementar aceptar");
-				
+//				new Error("Falta implementar aceptar");
+				sesion.meter_peli(String nom, String dir, String ruta_archivo, String ruta_imagen, ArrayList<Integer> id_tags, String año);
 				
 			}
 		});

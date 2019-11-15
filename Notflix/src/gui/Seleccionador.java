@@ -85,7 +85,7 @@ public class Seleccionador extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new Cargador();
+				new Cargador(sesion);
 				
 			}
 		});

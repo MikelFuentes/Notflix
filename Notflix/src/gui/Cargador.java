@@ -121,8 +121,26 @@ public class Cargador extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new Error("Falta implementar anadir imagen");
-				
+//				new Error("Falta implementar anadir imagen");
+                JFileChooser fileChooser = new JFileChooser(".");  													//Create this to start an explorer
+                FileFilter filter = new FileNameExtensionFilter("Archivos multimedia (.png, .jpg, .jpeg)", "png","jpeg","jpg"); 	//filter files to show only media files
+                fileChooser.setFileFilter(filter);
+                int valor = fileChooser.showOpenDialog(fileChooser); 												//open file explorer
+                if(valor == JFileChooser.APPROVE_OPTION){            												// if a file is chosen
+                    String path = fileChooser.getSelectedFile().getAbsolutePath();
+//                    File f = new File(path);
+                    aTarchi.setText(path);
+//                    try{
+//                        File f = new File(path);
+//                        //aTarchi.setText(path);
+//                    }
+//                    catch (FileNotFoundException err){ //chosen file couldn't be found, it isn't thrown in the Error class
+//                        new Error("Fichero no encontrado.");
+//
+//                    }
+                } else { //just closed without selecting file
+                    new Error("No se ha seleccionado ningun archivo.");
+                }
 			}
 		});
         

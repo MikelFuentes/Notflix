@@ -7,6 +7,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.JFileChooser;
@@ -89,7 +91,19 @@ public class Cargador extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 //				new Error("Falta implementar aceptar");
-				sesion.meter_peli(String nom, String dir, String ruta_archivo, String ruta_imagen, ArrayList<Integer> id_tags, String año);
+				
+				String nom = tNombre.getText();
+				String dir = tDirector.getText();
+				String ruta_archivo = aTarchi.getText();
+				String ruta_imagen = aTimagen.getText();
+				if (ruta_archivo == null || ruta_imagen == null) {
+					new Error("Selecciona un archivo y la imagen");
+					return;
+				}
+				//ArrayList<integer> =  //TODO SACAR LAS id de los tags añadidos
+				
+
+				//sesion.meter_peli(String nom, String dir, String ruta_archivo, String ruta_imagen, ArrayList<Integer> id_tags, String año);
 				
 			}
 		});

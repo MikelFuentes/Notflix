@@ -45,13 +45,13 @@ public class Cargador extends JPanel {
         tNombre = new JTextField (5);
         tDirector = new JTextField (5);
         tAño = new JTextField (5);
-        lNombre = new JLabel ("Nombre");
+        lNombre = new JLabel ("Nombre*");
         cBTags = new JComboBox (jcomp7Items);
         lDirector = new JLabel ("Director");
         lTags = new JLabel ("Tags");
         lAño = new JLabel ("Año");
-        bImagen = new JButton ("Seleccionar Imagen");
-        bMedia = new JButton ("Selecionar Media");
+        bImagen = new JButton ("Seleccionar Imagen*");
+        bMedia = new JButton ("Selecionar Media*");
         aTimagen = new JTextArea (5, 5);
         aTarchi = new JTextArea (5, 5);
         bAñadirTag = new JButton ("Añadir tags");
@@ -96,8 +96,8 @@ public class Cargador extends JPanel {
 				String dir = tDirector.getText();
 				String ruta_archivo = aTarchi.getText();
 				String ruta_imagen = aTimagen.getText();
-				if (ruta_archivo == null || ruta_imagen == null) {
-					new Error("Selecciona un archivo y la imagen");
+				if (ruta_archivo == null || ruta_imagen == null || nom == null) {
+					new Error("Por favor, rellena los campos con * ");
 					return;
 				}
 				//ArrayList<integer> =  //TODO SACAR LAS id de los tags añadidos

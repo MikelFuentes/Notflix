@@ -2,6 +2,7 @@ package gui;
 
 
 import database.Sesion;
+import database.Tag;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -32,26 +33,32 @@ public class Cargador extends JPanel {
     private JTextArea aTarchi;
     private JButton bAñadirTag;
     private JFrame frame;
+    private ArrayList<Tag> tags;
 
     public Cargador(Sesion sesion) {
         
     	frame = new JFrame ("Cragador");
     	frame.setDefaultCloseOperation (JFrame.DISPOSE_ON_CLOSE);
-        String[] jcomp7Items = {"Item 1", "Item 2", "Item 3"};
-
+    	
+    	tags = sesion.buscartaCla("%");
+        //String[] jcomp7Items = {"Item 1", "Item 2", "Item 3"};
+    	ArrayList<String> nomtags = new ArrayList<String>();
+    	for (int i = 0; i < tags.size(); i++ ) {
+    		  nomtags.add(tags.get(i).getNombre_tag());
+    	}
         
         bAceptar = new JButton ("Aceptar");
         bCancelar = new JButton ("Cancelar");
         tNombre = new JTextField (5);
         tDirector = new JTextField (5);
         tAño = new JTextField (5);
-        lNombre = new JLabel ("Nombre*");
-        cBTags = new JComboBox (jcomp7Items);
+        lNombre = new JLabel ("Nombre");
+        cBTags = new JComboBox (nomtags.toArray());
         lDirector = new JLabel ("Director");
         lTags = new JLabel ("Tags");
         lAño = new JLabel ("Año");
-        bImagen = new JButton ("Seleccionar Imagen*");
-        bMedia = new JButton ("Selecionar Media*");
+        bImagen = new JButton ("Seleccionar Imagen");
+        bMedia = new JButton ("Selecionar Media");
         aTimagen = new JTextArea (5, 5);
         aTarchi = new JTextArea (5, 5);
         bAñadirTag = new JButton ("Añadir tags");
@@ -89,6 +96,8 @@ public class Cargador extends JPanel {
         bAceptar.addActionListener(new ActionListener() {
 			
 			@Override
+			
+			//Recopila los datos del creador y lo pasa a la base de datos
 			public void actionPerformed(ActionEvent e) {
 //				new Error("Falta implementar aceptar");
 				
@@ -97,20 +106,25 @@ public class Cargador extends JPanel {
 				String anyo = tAño.getText();
 				String ruta_archivo = aTarchi.getText();
 				String ruta_imagen = aTimagen.getText();
-				if (ruta_archivo == null) {
+				ArrayList <Integer> tags = new ArrayList<Integer>();
+				tags.add(cBTags.getSelectedIndex());
+				
+				System.out.println(nom); // TODO NO entra
+				if (ruta_archivo == ""	) {
 					new Error("Por favor, selecciona ruta del archivo");
 					return;
 				}
-				if (ruta_imagen == null) {
+				if (ruta_imagen == "") {
 					new Error("Por favor, seleccione ruta de la imagen");
 				}
-				if (nom == null || dir == null || anyo == null) {
+				if (nom == "a" || dir == "" || anyo == "") {
+					System.out.println("entro");
 					new Error("Por favor, rellene todos los campos");
 				}
 				//ArrayList<integer> =  //TODO SACAR LAS id de los tags añadidos
 				
 
-				//sesion.meter_peli(String nom, String dir, String ruta_archivo, String ruta_imagen, ArrayList<Integer> id_tags, String año);
+				sesion.meter_peli(nom, dir, ruta_archivo, ruta_imagen, tags, anyo);
 				
 			}
 		});
@@ -129,14 +143,14 @@ public class Cargador extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 //				new Error("Falta implementar anadir imagen");
-                JFileChooser fileChooser = new JFileChooser(".");  													//Create this to start an explorer
+                JFileChooser fileChooser = new JFileChooser(".");  																	//Create this to start an explorer
                 FileFilter filter = new FileNameExtensionFilter("Archivos multimedia (.png, .jpg, .jpeg)", "png","jpeg","jpg"); 	//filter files to show only media files
                 fileChooser.setFileFilter(filter);
-                int valor = fileChooser.showOpenDialog(fileChooser); 												//open file explorer
-                if(valor == JFileChooser.APPROVE_OPTION){            												// if a file is chosen
+                int valor = fileChooser.showOpenDialog(fileChooser); 																//open file explorer
+                if(valor == JFileChooser.APPROVE_OPTION){            																// if a file is chosen
                     String path = fileChooser.getSelectedFile().getAbsolutePath();
 //                    File f = new File(path);
-                    aTarchi.setText(path);
+                    aTimagen.setText(path);
 //                    try{
 //                        File f = new File(path);
 //                        //aTarchi.setText(path);

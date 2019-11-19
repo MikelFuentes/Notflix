@@ -16,7 +16,7 @@ public class Sesion {
 	
 	public void Crear() {
 		try {
-			String url = "jdbc:sqlite:src/database/Database"; //TODO AÑADIR O QUITAR NOTFIX
+			String url = "jdbc:sqlite:Notflix/src/database/Database"; //TODO AÑADIR O QUITAR NOTFIX
 			System.out.println("antessss");
 			this.con = DriverManager.getConnection(url);
 			System.out.println(this.con);
@@ -49,41 +49,41 @@ public class Sesion {
 	}
 
 	public void meter_peli (String nom, String dir, String ruta_archivo, String ruta_imagen, ArrayList<Integer> id_tags, String año){
-		String statement = "INSERT INTO peliculas (nombre, anyo, director, archivo, imagen) VALUES ('n','d','ra','ri','a');";
-		statement = statement.replace("n",nom);
-		statement = statement.replace("d",dir);
+		String statement = "INSERT INTO peliculas (nombre, anyo, director, archivo, imagen) VALUES ('z','x','ra','ri','xx');";
+		statement = statement.replace("z",nom);
+		statement = statement.replace("x",dir);
 		statement = statement.replace("ra",ruta_archivo);
 		statement = statement.replace("ri",ruta_imagen);
-		statement = statement.replace("a",año);
+		statement = statement.replace("xx",año);
+		System.out.println(statement);
 
 
-
-		try{
-			PreparedStatement state = con.prepareStatement(statement);
-			state.executeUpdate();
-
-			String query = "SELECT nombre from peliculas where nombre = '"+ nom +"' ;";
-			state = con.prepareStatement(query);
-			ResultSet id_pelicula = state.executeQuery();
-			String  id_peli = id_pelicula.getString("id_peli");
-
-			String statement_tags = "insert into tags_peliculas(id_pelis, id_tags) values ('id_p', 'id_t')";
-			statement_tags = statement_tags.replace("id_p", id_peli);
-
-			for (int i = 0; i<id_tags.size(); i++) {
-				String statement_tag = statement_tags.replace("id_t", id_tags.get(i).toString());
-				state = con.prepareStatement(statement_tag);
-				state.executeUpdate();
-			}
-			state.executeUpdate();
-			state = con.prepareStatement(statement_tags);
-			state.executeUpdate();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			new Error("El programa se ha ido a cagar");
-			e.printStackTrace();
-		}
+//		try{
+//			PreparedStatement state = con.prepareStatement(statement);
+//			state.executeUpdate();
+//
+//			String query = "SELECT nombre from peliculas where nombre = '"+ nom +"' ;";
+//			state = con.prepareStatement(query);
+//			ResultSet id_pelicula = state.executeQuery();
+//			String  id_peli = id_pelicula.getString("id_peli");
+//
+//			String statement_tags = "insert into tags_peliculas(id_pelis, id_tags) values ('id_p', 'id_t')";
+//			statement_tags = statement_tags.replace("id_p", id_peli);
+//
+//			for (int i = 0; i<id_tags.size(); i++) {
+//				String statement_tag = statement_tags.replace("id_t", id_tags.get(i).toString());
+//				state = con.prepareStatement(statement_tag);
+//				state.executeUpdate();
+//			}
+//			state.executeUpdate();
+//			state = con.prepareStatement(statement_tags);
+//			state.executeUpdate();
+//
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			new Error("El programa se ha ido a cagar");
+//			e.printStackTrace();
+//		}
 	}
 
 	public ArrayList buscar2 (String d) {
@@ -109,9 +109,11 @@ public class Sesion {
 		return resul;
 		
 	}
-	public ArrayList buscart (String a) {
-		String qwer = "SELECT * from tags where nombre_tag LIKE 'a' ;";
-		qwer = qwer.replace("a", a);
+	public ArrayList buscartaCla (String z) {
+		System.out.println("me llama");
+		String qwer = "SELECT * from tags where nombre_tag LIKE 'z' ;";
+		qwer = qwer.replace("z", z);
+		
 		Tag tag_datos;
 		ArrayList<Tag> resul = new ArrayList<>();
 		try {
@@ -119,7 +121,9 @@ public class Sesion {
 			ResultSet set = sta.executeQuery();
 			while (set.next()){
 				tag_datos = new Tag(set.getString("nombre_tag"), set.getInt("id_tag"));
+				
 				resul.add(tag_datos);
+				
 			}
 		} catch (Exception e) {
 		

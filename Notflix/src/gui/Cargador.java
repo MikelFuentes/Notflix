@@ -94,11 +94,18 @@ public class Cargador extends JPanel {
 				
 				String nom = tNombre.getText();
 				String dir = tDirector.getText();
+				String anyo = tAño.getText();
 				String ruta_archivo = aTarchi.getText();
 				String ruta_imagen = aTimagen.getText();
-				if (ruta_archivo == null || ruta_imagen == null || nom == null) {
-					new Error("Por favor, rellena los campos con * ");
+				if (ruta_archivo == null) {
+					new Error("Por favor, selecciona ruta del archivo");
 					return;
+				}
+				if (ruta_imagen == null) {
+					new Error("Por favor, seleccione ruta de la imagen");
+				}
+				if (nom == null || dir == null || anyo == null) {
+					new Error("Por favor, rellene todos los campos");
 				}
 				//ArrayList<integer> =  //TODO SACAR LAS id de los tags añadidos
 				

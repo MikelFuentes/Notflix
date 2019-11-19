@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.naming.spi.DirStateFactory.Result;
+
 public class Sesion {
 	Connection con;
 	
@@ -107,6 +109,22 @@ public class Sesion {
 		return resul;
 		
 	}
-
+	public ArrayList buscart (String a) {
+		String qwer = "SELECT * from tags where nombre_tag LIKE 'a' ;";
+		qwer = qwer.replace("a", a);
+		Tag tag_datos;
+		ArrayList<Tag> resul = new ArrayList<>();
+		try {
+			PreparedStatement sta = con.prepareStatement(qwer);
+			ResultSet set = sta.executeQuery();
+			while (set.next()){
+				tag_datos = new Tag(set.getString("nombre_tag"), set.getInt("id_tag"));
+				resul.add(tag_datos);
+			}
+		} catch (Exception e) {
+		
+		}
+		return resul;
+	}
 	
 }

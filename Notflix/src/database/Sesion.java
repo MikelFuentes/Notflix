@@ -49,7 +49,7 @@ public class Sesion {
 	}
 
 	public void meter_peli (String nom, String dir, String ruta_archivo, String ruta_imagen, ArrayList<Integer> id_tags, String anio){
-		String statement = "INSERT INTO peliculas (nombre, anyo, director, archivo, imagen) VALUES ('?','?','?','?','?');";
+		String statement = "INSERT INTO peliculas (nombre, anyo, director, archivo, imagen) VALUES (?,?,?,?,?);";
 		
 		
 //		statement = statement.replace("z",nom);

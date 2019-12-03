@@ -36,7 +36,14 @@ public class Seleccionador extends JPanel {
     	sesion.buscar2("%");
 
         lBuscar = new JList<>(model);
-        
+        lBuscar.addListSelectionListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				System.out.println(lBuscar.getSelectedValue());
+				
+			}
+		});
         for(int i = 0; i < peli_ini.size(); i++) {
         	model.addElement(peli_ini.get(i));
         }

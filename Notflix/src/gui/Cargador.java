@@ -109,7 +109,7 @@ public class Cargador extends JPanel {
 				ArrayList <Integer> tags = new ArrayList<Integer>();
 				tags.add(cBTags.getSelectedIndex());
 				
-				System.out.println(nom); // TODO NO entra
+				System.out.println(nom); 
 				if (ruta_archivo.equals("")	) {
 					new Error("Por favor, selecciona ruta del archivo");
 					return;

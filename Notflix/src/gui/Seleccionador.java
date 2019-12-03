@@ -44,6 +44,7 @@ public class Seleccionador extends JPanel {
 				
 			}
 		});
+        
         for(int i = 0; i < peli_ini.size(); i++) {
         	model.addElement(peli_ini.get(i));
         }

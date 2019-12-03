@@ -110,14 +110,14 @@ public class Cargador extends JPanel {
 				tags.add(cBTags.getSelectedIndex());
 				
 				System.out.println(nom); // TODO NO entra
-				if (ruta_archivo == ""	) {
+				if (ruta_archivo.equals("")	) {
 					new Error("Por favor, selecciona ruta del archivo");
 					return;
 				}
-				if (ruta_imagen == "") {
+				if (ruta_imagen.equals("")) {
 					new Error("Por favor, seleccione ruta de la imagen");
 				}
-				if (nom == "a" || dir == "" || anyo == "") {
+				if (nom.equals("") || dir.equals("") || anyo.equals("")) {
 					System.out.println("entro");
 					new Error("Por favor, rellene todos los campos");
 				}

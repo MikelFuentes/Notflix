@@ -16,7 +16,7 @@ public class Sesion {
 	
 	public void Crear() {
 		try {
-			String url = "jdbc:sqlite:Notflix/src/database/Database"; //TODO AÑADIR O QUITAR NOTFIX
+			String url = "jdbc:sqlite:src/database/Database"; //TODO AÑADIR O QUITAR NOTFIX
 			System.out.println("antessss");
 			this.con = DriverManager.getConnection(url);
 			System.out.println(this.con);
@@ -48,42 +48,52 @@ public class Sesion {
 		
 	}
 
-	public void meter_peli (String nom, String dir, String ruta_archivo, String ruta_imagen, ArrayList<Integer> id_tags, String año){
-		String statement = "INSERT INTO peliculas (nombre, anyo, director, archivo, imagen) VALUES ('z','x','ra','ri','xx');";
-		statement = statement.replace("z",nom);
-		statement = statement.replace("x",dir);
-		statement = statement.replace("ra",ruta_archivo);
-		statement = statement.replace("ri",ruta_imagen);
-		statement = statement.replace("xx",año);
-		System.out.println(statement);
+	public void meter_peli (String nom, String dir, String ruta_archivo, String ruta_imagen, ArrayList<Integer> id_tags, String anio){
+		String statement = "INSERT INTO peliculas (nombre, anyo, director, archivo, imagen) VALUES ('?','?','?','?','?');";
+		
+		
+//		statement = statement.replace("z",nom);
+//		statement = statement.replace("x",dir);
+//		statement = statement.replace("ra",ruta_archivo);
+//		statement = statement.replace("ri",ruta_imagen);
+//		statement = statement.replace("xx",año);
+//		System.out.println(statement);
 
 
-//		try{
-//			PreparedStatement state = con.prepareStatement(statement);
+		try{
+			PreparedStatement state = con.prepareStatement(statement);
+			state.setString(1, nom);
+			state.setString(2, anio);
+			state.setString(3, dir);
+			state.setString(4, ruta_archivo);
+			state.setString(5, ruta_imagen);
+			
+			System.out.println(state);
 //			state.executeUpdate();
-//
+
 //			String query = "SELECT nombre from peliculas where nombre = '"+ nom +"' ;";
 //			state = con.prepareStatement(query);
 //			ResultSet id_pelicula = state.executeQuery();
 //			String  id_peli = id_pelicula.getString("id_peli");
 //
-//			String statement_tags = "insert into tags_peliculas(id_pelis, id_tags) values ('id_p', 'id_t')";
-//			statement_tags = statement_tags.replace("id_p", id_peli);
+//			
 //
 //			for (int i = 0; i<id_tags.size(); i++) {
-//				String statement_tag = statement_tags.replace("id_t", id_tags.get(i).toString());
-//				state = con.prepareStatement(statement_tag);
+//				String statement_tags = "insert into tags_peliculas(id_pelis, id_tags) values ('id_pog', 'id_tog')";//aqui
+//				statement_tags = statement_tags.replace("id_pog", id_peli);											//aqui
+//				String statement_tag = statement_tags.replace("id_tog", id_tags.get(i).toString());
+//				state = con.prepareStatement(statement_tag); 														//TODO  USAR CON INTERROGANTES
 //				state.executeUpdate();
 //			}
 //			state.executeUpdate();
 //			state = con.prepareStatement(statement_tags);
 //			state.executeUpdate();
-//
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			new Error("El programa se ha ido a cagar");
-//			e.printStackTrace();
-//		}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			new Error("El programa se ha ido a cagar");
+			e.printStackTrace();
+		}
 	}
 
 	public ArrayList buscar2 (String d) {

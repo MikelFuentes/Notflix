@@ -68,16 +68,17 @@ public class Sesion {
 			state.setString(4, ruta_archivo);
 			state.setString(5, ruta_imagen);
 			
-			System.out.println(state);
-//			state.executeUpdate();
+//			System.out.println(state);
+			//state.executeUpdate();
 
-//			String query = "SELECT nombre from peliculas where nombre = '"+ nom +"' ;";
+//			String query = "SELECT * from peliculas where nombre = ? ;";
 //			state = con.prepareStatement(query);
+//			state.setString(1, nom);
 //			ResultSet id_pelicula = state.executeQuery();
 //			String  id_peli = id_pelicula.getString("id_peli");
-//
-//			
-//
+//			System.out.println(id_peli);
+			
+
 //			for (int i = 0; i<id_tags.size(); i++) {
 //				String statement_tags = "insert into tags_peliculas(id_pelis, id_tags) values ('id_pog', 'id_tog')";//aqui
 //				statement_tags = statement_tags.replace("id_pog", id_peli);											//aqui
@@ -97,24 +98,25 @@ public class Sesion {
 	}
 
 	public ArrayList buscar2 (String d) {
-		String qwer = "SELECT * from peliculas where nombre LIKE 'd' ;";
-		qwer = qwer.replace("d", d);
-		
-		System.out.println(qwer);
-		Pelicula peli_datos;
-		ArrayList<Pelicula> resul = new ArrayList<>();
+		String qwer = "SELECT * from peliculas where nombre LIKE ? ;";
 		try {
 			PreparedStatement sta = con.prepareStatement(qwer);
+			sta.setString(1, d);
 			ResultSet set = sta.executeQuery();
 			while(set.next()) {
 			
-			//	peli_datos = new Pelicula(set.getInt("id_peli"), set.getString("nombre"), set.getString("anyo"), set.getString("director"), set.getString("archivo"), set.getString("imagen"));
-//				resul.add(peli_datos);
+//				Pelicula peli_datos = new Pelicula(set.getInt("id_peli"), set.getString("nombre"), set.getString("anyo"), set.getString("director"), set.getString("archivo"), set.getString("imagen"));
+//				kresul.add(peli_datos);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+				
+		System.out.println(qwer);
+		Pelicula peli_datos;
+		ArrayList<Pelicula> resul = new ArrayList<>();
+		
 		
 		return resul;
 		

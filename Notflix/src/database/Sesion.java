@@ -68,15 +68,15 @@ public class Sesion {
 			state.setString(4, ruta_archivo);
 			state.setString(5, ruta_imagen);
 			
-//			System.out.println(state);
-			//state.executeUpdate();
+			System.out.println(state);
+			state.executeUpdate();
 
-//			String query = "SELECT * from peliculas where nombre = ? ;";
-//			state = con.prepareStatement(query);
-//			state.setString(1, nom);
-//			ResultSet id_pelicula = state.executeQuery();
-//			String  id_peli = id_pelicula.getString("id_peli");
-//			System.out.println(id_peli);
+			String query = "SELECT id_peli from peliculas where nombre = ? ;";
+			PreparedStatement state2 = con.prepareStatement(query);
+			state2.setString(1, nom);
+			ResultSet id_pelicula = state2.executeQuery();
+			String  id_peli = id_pelicula.getString("id_peli");
+			System.out.println(id_peli);
 			
 
 //			for (int i = 0; i<id_tags.size(); i++) {
@@ -98,7 +98,7 @@ public class Sesion {
 	}
 
 	public ArrayList buscar2 (String d) {
-		String qwer = "SELECT * from peliculas where nombre LIKE ? ;";
+		String qwer = "SELECT peliculas.*, id_tags  from peliculas, tags_peliculas where peliculas.nombre LIKE ?;";
 		try {
 			PreparedStatement sta = con.prepareStatement(qwer);
 			sta.setString(1, d);

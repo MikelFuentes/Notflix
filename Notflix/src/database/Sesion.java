@@ -50,8 +50,8 @@ public class Sesion {
 
 	public void meter_peli (String nom, String dir, String ruta_archivo, String ruta_imagen, ArrayList<Integer> id_tags, String anio){
 		String statement = "INSERT INTO peliculas (nombre, anyo, director, archivo, imagen) VALUES ('?','?','?','?','?');";
-		
-		
+
+
 //		statement = statement.replace("z",nom);
 //		statement = statement.replace("x",dir);
 //		statement = statement.replace("ra",ruta_archivo);
@@ -60,41 +60,46 @@ public class Sesion {
 //		System.out.println(statement);
 
 
-		try{
-			PreparedStatement state = con.prepareStatement(statement);
-			state.setString(1, nom);
-			state.setString(2, anio);
-			state.setString(3, dir);
-			state.setString(4, ruta_archivo);
-			state.setString(5, ruta_imagen);
-			
-			System.out.println(state);
-//			state.executeUpdate();
+        try{
+            PreparedStatement state = con.prepareStatement(statement);
+            state.setString(1, nom);
+            state.setString(2, anio);
+            state.setString(3, dir);
+            state.setString(4, ruta_archivo);
+            state.setString(5, ruta_imagen);
 
-//			String query = "SELECT nombre from peliculas where nombre = '"+ nom +"' ;";
-//			state = con.prepareStatement(query);
-//			ResultSet id_pelicula = state.executeQuery();
-//			String  id_peli = id_pelicula.getString("id_peli");
-//
-//			
-//
-//			for (int i = 0; i<id_tags.size(); i++) {
-//				String statement_tags = "insert into tags_peliculas(id_pelis, id_tags) values ('id_pog', 'id_tog')";//aqui
-//				statement_tags = statement_tags.replace("id_pog", id_peli);											//aqui
+            System.out.println(state);
+            state.executeUpdate();													// Introduzco un nuevo elemento en la tabla de peliculas
+            state.close();
+
+            String query = "SELECT id_peli from peliculas where nombre = ? ;";		// Saco el Id de la Pelicula que acabo de introducir
+            PreparedStatement state2 = con.prepareStatement(query);
+            state2.setString(1, nom);
+
+            ResultSet id_pelicula = state2.executeQuery();							//
+            int  id_peli = id_pelicula.getInt("id_peli");
+            state2.close();
+//			System.out.println(id_peli);
+
+
+            for (int i = 0; i<id_tags.size(); i++) {  																	// Recorro el Arraylist de tags que he pasado y los meto en la
+                String statement_tags = "insert into tags_peliculas(id_pelis, id_tags) values (?,?)";	                // tabla intermedia tags_peliculas junto a la id de la pelicul
+                PreparedStatement state3 = con.prepareStatement(statement_tags);										// que acabo de meter
+                state3.setInt(1, id_peli);
+                state3.setInt(2, id_tags.get(i));
+
+//				statement_tags = statement_tags.replace("id_pog", id_peli);
 //				String statement_tag = statement_tags.replace("id_tog", id_tags.get(i).toString());
-//				state = con.prepareStatement(statement_tag); 														//TODO  USAR CON INTERROGANTES
-//				state.executeUpdate();
-//			}
-//			state.executeUpdate();
-//			state = con.prepareStatement(statement_tags);
-//			state.executeUpdate();
+                state3.executeUpdate();
+            }
 
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			new Error("El programa se ha ido a cagar");
-			e.printStackTrace();
-		}
-	}
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            new Error("El programa se ha ido a cagar"); 				// TODO POR AMOR DE CRISTO HAY QUE CAMBIAR ESTO <--------------------
+            e.printStackTrace();
+        }
+    }
 
 	public ArrayList buscar2 (String d) {
 		String qwer = "SELECT * from peliculas where nombre LIKE 'd' ;";

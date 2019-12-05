@@ -34,6 +34,9 @@ public class Cargador extends JPanel {
     private JButton bAñadirTag;
     private JFrame frame;
     private ArrayList<Tag> tags;
+    private JLabel ltags2;
+    private JButton bEliminarTags;
+    private JTextArea tAtags;
 
     public Cargador(Sesion sesion) {
         
@@ -62,6 +65,11 @@ public class Cargador extends JPanel {
         aTimagen = new JTextArea (5, 5);
         aTarchi = new JTextArea (5, 5);
         bAñadirTag = new JButton ("Añadir tags");
+        ltags2 = new JLabel ("Tags");
+        bEliminarTags = new JButton ("Eliminar Tag");
+        tAtags = new JTextArea (5, 5);
+
+        
 
         
         frame.setPreferredSize (new Dimension (944, 574));
@@ -93,6 +101,11 @@ public class Cargador extends JPanel {
         frame.add (aTimagen);	//area de la imagen
         frame.add (aTarchi);	//que archivo está cargado
         
+        frame.add (ltags2);
+        frame.add (bEliminarTags);
+        frame.add (tAtags);
+        
+        
         bAceptar.addActionListener(new ActionListener() {
 			
 			@Override
@@ -109,7 +122,7 @@ public class Cargador extends JPanel {
 				ArrayList <Integer> tags = new ArrayList<Integer>();
 				tags.add(cBTags.getSelectedIndex());
 				
-				System.out.println(nom); // TODO NO entra
+				System.out.println(nom); 
 				if (ruta_archivo.equals("")	) {
 					new Error("Por favor, selecciona ruta del archivo");
 					return;
@@ -203,21 +216,24 @@ public class Cargador extends JPanel {
         
         
         
-        bAceptar.setBounds (100, 450, 150, 50);
-        bCancelar.setBounds (300, 450, 150, 50);
-        tNombre.setBounds (100, 50, 350, 50);
-        tDirector.setBounds (100, 150, 350, 50);
-        tAño.setBounds (100, 350, 350, 50);
-        lNombre.setBounds (100, 25, 100, 25);
-        cBTags.setBounds (100, 250, 235, 50);
-        lDirector.setBounds (100, 125, 100, 25);
-        lTags.setBounds (100, 225, 100, 25);
-        lAño.setBounds (100, 325, 100, 25);
-        bImagen.setBounds (490, 375, 300, 25);
-        bMedia.setBounds (490, 475, 300, 25);
-        aTimagen.setBounds (490, 50, 300, 330);
-        aTarchi.setBounds (490, 430, 300, 55);
-        bAñadirTag.setBounds (350, 250, 100, 50);
+        bAceptar.setBounds (60, 450, 150, 50);
+        bCancelar.setBounds (260, 450, 150, 50);
+        tNombre.setBounds (60, 50, 350, 50);
+        tDirector.setBounds (60, 150, 350, 50);
+        tAño.setBounds (60, 350, 350, 50);
+        lNombre.setBounds (60, 25, 100, 25);
+        cBTags.setBounds (60, 250, 235, 50);
+        lDirector.setBounds (60, 125, 100, 25);
+        lTags.setBounds (60, 225, 100, 25);
+        lAño.setBounds (60, 325, 100, 25);
+        bImagen.setBounds (580, 375, 300, 25);
+        bMedia.setBounds (580, 475, 300, 25);
+        aTimagen.setBounds (580, 50, 300, 330);
+        aTarchi.setBounds (580, 430, 300, 55);
+        bAñadirTag.setBounds (310, 250, 100, 50);
+        ltags2.setBounds (440, 115, 100, 25);
+        bEliminarTags.setBounds (440, 350, 105, 50);
+        tAtags.setBounds (440, 140, 105, 215);
         
         frame.setVisible (true);
     }

@@ -12,8 +12,13 @@ import java.util.ArrayList;
 import javax.naming.spi.DirStateFactory.Result;
 
 public class Sesion {
+
 	Connection con;
-	
+
+	public Connection getCon() {
+		return con;
+	}
+
 	public void Crear() {
 		try {
 			String url = "jdbc:sqlite:src/database/Database"; //TODO AÑADIR O QUITAR NOTFIX
@@ -26,13 +31,14 @@ public class Sesion {
 	}
 
 	public ArrayList<String> buscar (String d) {
-		String qwer = "SELECT nombre from peliculas where nombre LIKE 'd' ;";
+		String qwer = "SELECT nombre from peliculas where nombre LIKE ? ;";
 		ArrayList<String> resul = new ArrayList<>();
-		qwer = qwer.replace("d", d);
-		System.out.println(qwer);
+//		System.out.println(qwer);
 		try {
-			PreparedStatement sta = con.prepareStatement(qwer);
-			ResultSet set = sta.executeQuery();
+			PreparedStatement sta = con.prepareStatement(qwer); //TODO fix nullpointerexception
+			sta.setString(1,d);								//No se pq, pero no detecta la conexion creada antes
+//            System.out.println(sta);							//he probado a darle una conexion junto al string
+			ResultSet set = sta.executeQuery();					//pero no hace nada, sigue igual
 			while(set.next()) {
 				
 				resul.add(set.getString("nombre"));
@@ -43,9 +49,6 @@ public class Sesion {
 			e.printStackTrace();
 		}
 		return resul;
-		
-	
-		
 	}
 
 	public void meter_peli (String nom, String dir, String ruta_archivo, String ruta_imagen, ArrayList<Integer> id_tags, String anio){
@@ -90,7 +93,7 @@ public class Sesion {
 
 //				statement_tags = statement_tags.replace("id_pog", id_peli);
 //				String statement_tag = statement_tags.replace("id_tog", id_tags.get(i).toString());
-				state.executeUpdate();
+				state3.executeUpdate();
 			}
 
 

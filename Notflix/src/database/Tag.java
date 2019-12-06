@@ -23,7 +23,7 @@ public class Tag {
 
 	@Override
 	public String toString() {
-		return "Tag [nombre_tag=" + nombre_tag + "]";
+		return nombre_tag;
 	}
 
 

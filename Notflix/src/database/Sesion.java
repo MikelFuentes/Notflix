@@ -19,6 +19,9 @@ public class Sesion {
 		return con;
 	}
 
+	/**
+	 * Crea la conexión con la base de datos
+	 */
 	public void Crear() {
 		try {
 			String url = "jdbc:sqlite:src/database/Database"; //TODO AÑADIR O QUITAR NOTFIX
@@ -29,7 +32,12 @@ public class Sesion {
 			new Error("no se ha podido conectar ");
 		}
 	}
-
+	
+	/**
+	 * @deprecated 
+	 * @param d
+	 * @return
+	 */
 	public ArrayList<String> buscar (String d) {
 		String qwer = "SELECT nombre from peliculas where nombre LIKE ? ;";
 		ArrayList<String> resul = new ArrayList<>();
@@ -51,6 +59,14 @@ public class Sesion {
 		return resul;
 	}
 
+	/** Mete peliculas en la base de datos
+	 * @param nom Nombre de la pelicula
+	 * @param dir Director de la pelicula
+	 * @param ruta_archivo Ruta del archivo de la pelicula
+	 * @param ruta_imagen Ruta de la imagfen de la pelicula
+	 * @param id_tags Array con las id de la pelicula
+	 * @param anio Año en el que salió la pelicula
+	 */
 	public void meter_peli (String nom, String dir, String ruta_archivo, String ruta_imagen, ArrayList<Integer> id_tags, String anio){
 		String statement = "INSERT INTO peliculas (nombre, anyo, director, archivo, imagen) VALUES (?,?,?,?,?);";
 		
@@ -103,31 +119,48 @@ public class Sesion {
 			e.printStackTrace();
 		}
 	}
+	
 
-	public ArrayList buscar2 (String d) {
-		String qwer = "SELECT peliculas.*, id_tags  from peliculas, tags_peliculas where peliculas.nombre LIKE ?;";
+	
+	/** Hace una busqueda en la base de datos que devuelve una clase con toda la información de la pelicula
+	 * @param d Es elmento que quiers buscar
+	 * @return Devuelve un Array list con las peliculas que ha encontrado
+	 */
+	public ArrayList<Pelicula> buscar2 (String d) { 					
+		String qwer = "SELECT *  from peliculas where nombre LIKE ?;";
+		ArrayList<Pelicula> resul = new ArrayList<>();
+		ArrayList<Tag> listaTags = new ArrayList<Tag>();
 		try {
 			PreparedStatement sta = con.prepareStatement(qwer);
 			sta.setString(1, d);
 			ResultSet set = sta.executeQuery();
 			while(set.next()) {
-			
-//				Pelicula peli_datos = new Pelicula(set.getInt("id_peli"), set.getString("nombre"), set.getString("anyo"), set.getString("director"), set.getString("archivo"), set.getString("imagen"));
-//				kresul.add(peli_datos);
+				
+//				System.out.println(set.getInt("id_peli") + "     " + set.getString("nombre") + "     " + set.getString("anyo") + "     " + set.getString("director") + "     " + set.getString("archivo") + "     " + set.getString("imagen"));
+				String qwer2 = "SELECT * from tags where id_tag in (SELECT id_tags from tags_peliculas where id_pelis = ?);";
+				PreparedStatement sta2 = con.prepareStatement(qwer2);
+				sta2.setInt(1, set.getInt("id_peli"));
+				ResultSet set2 = sta2.executeQuery();
+				while(set2.next()) {
+					Tag unTag = new Tag(set2.getString("nombre_tag"), set2.getInt("id_tag"));
+					listaTags.add(unTag);
+				}
+				
+				Pelicula peli_datos = new Pelicula(set.getInt("id_peli"), set.getString("nombre"), set.getString("anyo"), set.getString("director"), set.getString("archivo"), set.getString("imagen"), listaTags);
+				resul.add(peli_datos);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 				
-		System.out.println(qwer);
-		Pelicula peli_datos;
-		ArrayList<Pelicula> resul = new ArrayList<>();
+
 		
 		
 		return resul;
 		
 	}
+	
 	public ArrayList buscartaClaTa (String z)  {
 		System.out.println("me llama");
 		ResultSet set = null;
@@ -140,8 +173,6 @@ public class Sesion {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}	
-		ArrayList<Tag> tagsResul = new ArrayList<Tag>();
-		
 		ArrayList<Tag> resul = new ArrayList<>();
 		try {
 			while (set.next()){

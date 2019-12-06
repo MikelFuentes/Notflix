@@ -11,13 +11,14 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.plaf.metal.DefaultMetalTheme;
 
+import database.Pelicula;
 import database.Sesion;
 
 @SuppressWarnings("serial")
 public class Seleccionador extends JPanel {
 	
-	DefaultListModel<String> model = new DefaultListModel<>();
-    private JList<String> lBuscar;
+	DefaultListModel<Pelicula> model = new DefaultListModel<>();
+    private JList<Pelicula> lBuscar;
     
     private JTextField tBuscar;
     private JButton bBuscar;
@@ -35,7 +36,7 @@ public class Seleccionador extends JPanel {
        // String[] lBuscarItems = {"Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9", "Item 10" ,"Item 11" ,"Item 12" ,"Item 13","Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9", "Item 10" ,"Item 11" ,"Item 12" ,"Item 13"};
     	
     	 actualizar(sesion);
-        lBuscar = new JList<>(model);
+        lBuscar = new JList<Pelicula>(model);
         lBuscar.addListSelectionListener(new ListSelectionListener() {
 			
 			@Override
@@ -104,7 +105,7 @@ public class Seleccionador extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String busqueda = tBuscar.getText();
-				ArrayList<String> peli_ini = sesion.buscar("%"+ busqueda + "%");
+				ArrayList<Pelicula> peli_ini = sesion.buscar2("%"+ busqueda + "%");
 				
 				model.removeAllElements();
 				
@@ -130,7 +131,7 @@ public class Seleccionador extends JPanel {
     
     public void actualizar(Sesion sesion) {
     	model.removeAllElements();
-    	ArrayList<String> peli_ini = sesion.buscar("%");
+    	ArrayList<Pelicula> peli_ini = sesion.buscar2("%");
      	sesion.buscar2("%");
          
          for(int i = 0; i < peli_ini.size(); i++) {

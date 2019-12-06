@@ -24,7 +24,7 @@ public class Sesion {
 	 */
 	public void Crear() {
 		try {
-			String url = "jdbc:sqlite:src/database/Database"; //TODO AÑADIR O QUITAR NOTFIX
+			String url = "jdbc:sqlite:src/database/Database"; //TODO AÑADIR O QUITAR "Notflix/"
 			System.out.println("antessss");
 			this.con = DriverManager.getConnection(url);
 			System.out.println(this.con);
@@ -36,17 +36,19 @@ public class Sesion {
 	/**
 	 * @deprecated 
 	 * @param d
+	 * @param campo Campo en el que se quiere buscar (nombre, director, anyo)
 	 * @return
 	 */
-	public ArrayList<String> buscar (String d) {
-		String qwer = "SELECT nombre from peliculas where nombre LIKE ? ;";
+	public ArrayList<String> buscar (String d, String campo) {
+		String qwer = "SELECT nombre from peliculas where ? LIKE ? ;";
 		ArrayList<String> resul = new ArrayList<>();
 //		System.out.println(qwer);
 		try {
-			PreparedStatement sta = con.prepareStatement(qwer);	 	//TODO fix nullpointerexception
-			sta.setString(1,d);										//No se pq, pero no detecta la conexion creada antes
-//            System.out.println(sta);								//he probado a darle una conexion junto al string
-			ResultSet set = sta.executeQuery();						//pero no hace nada, sigue igual
+			PreparedStatement sta = con.prepareStatement(qwer);
+			sta.setString(1,campo);
+			sta.setString(2,d);
+//            System.out.println(sta);
+			ResultSet set = sta.executeQuery();
 			while(set.next()) {
 				
 				resul.add(set.getString("nombre"));
@@ -58,6 +60,8 @@ public class Sesion {
 		}
 		return resul;
 	}
+
+
 
 	/** Mete peliculas en la base de datos
 	 * @param nom Nombre de la pelicula
@@ -115,7 +119,7 @@ public class Sesion {
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			new Error("El programa se ha ido a cagar"); 				// TODO POR AMOR DE CRISTO HAY QUE CAMBIAR ESTO <--------------------
+			new Error("Error. No se ha podido guardar la película.");
 			e.printStackTrace();
 		}
 	}
@@ -131,8 +135,8 @@ public class Sesion {
 		ArrayList<Pelicula> resul = new ArrayList<>();
 		ArrayList<Tag> listaTags = new ArrayList<Tag>();
 		try {
-			PreparedStatement sta = con.prepareStatement(qwer);
-			sta.setString(1, d);
+			PreparedStatement sta = con.prepareStatement(qwer); //TODO arreglar nullpoiter
+			sta.setString(1, d);								//ns como lo has hecho en el de arriba, pero creo que pasa lo mismo aqui
 			ResultSet set = sta.executeQuery();
 			while(set.next()) {
 				
@@ -153,12 +157,33 @@ public class Sesion {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-				
-
-		
-		
 		return resul;
-		
+	}
+	/**
+	 * @param tg Nombre del tag que se quiere buscar
+	 * @return Devuelve los nombres de las peliculas con el tag
+	 */
+
+	public ArrayList<String> buscarPorUnTag(String tg){ //TODO comprobar si funciona, que me da un nullpointerexception en buscar2 y no me deja probar nada
+		String st1 = "select  id_tag from tags where nombre_tag like ?";
+		String st2 = "select nombre from tags_peliculas where id_tags = ?";
+		ArrayList<String> resul = new ArrayList<>();
+		try{
+			PreparedStatement state = con.prepareStatement(st1);
+			state.setString(1,tg);
+			ResultSet set1 = state.executeQuery();
+			int tagId = set1.getInt(1);
+			state = con.prepareStatement(st2);
+			state.setInt(1,tagId);
+			ResultSet set2 = state.executeQuery();
+			while(set2.next()){
+				resul.add(set2.getString("nombre"));
+			}
+		}catch (SQLException e){
+			e.printStackTrace();
+		}
+		return resul;
+
 	}
 	
 	public ArrayList buscartaClaTa (String z)  {

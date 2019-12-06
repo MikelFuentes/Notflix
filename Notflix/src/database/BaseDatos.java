@@ -112,7 +112,7 @@ public class BaseDatos {
             		+"password VARCHAR(100) NOT NULL,"
             		+"rango int NOT NULL"
             		+");");
-            
+
             
             System.out.println("paso 3");
             

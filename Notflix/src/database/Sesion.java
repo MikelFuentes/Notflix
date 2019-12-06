@@ -67,32 +67,36 @@ public class Sesion {
 			state.setString(3, dir);
 			state.setString(4, ruta_archivo);
 			state.setString(5, ruta_imagen);
-			
-			System.out.println(state);
-			state.executeUpdate();
 
-			String query = "SELECT id_peli from peliculas where nombre = ? ;";
+			System.out.println(state);
+			state.executeUpdate();													// Introduzco un nuevo elemento en la tabla de peliculas
+			state.close();
+
+			String query = "SELECT id_peli from peliculas where nombre = ? ;";		// Saco el Id de la Pelicula que acabo de introducir
 			PreparedStatement state2 = con.prepareStatement(query);
 			state2.setString(1, nom);
-			ResultSet id_pelicula = state2.executeQuery();
-			String  id_peli = id_pelicula.getString("id_peli");
-			System.out.println(id_peli);
-			
 
-//			for (int i = 0; i<id_tags.size(); i++) {
-//				String statement_tags = "insert into tags_peliculas(id_pelis, id_tags) values ('id_pog', 'id_tog')";//aqui
-//				statement_tags = statement_tags.replace("id_pog", id_peli);											//aqui
+			ResultSet id_pelicula = state2.executeQuery();							//
+			int  id_peli = id_pelicula.getInt("id_peli");
+			state2.close();
+//			System.out.println(id_peli);
+
+
+			for (int i = 0; i<id_tags.size(); i++) {  																	// Recorro el Arraylist de tags que he pasado y los meto en la
+				String statement_tags = "insert into tags_peliculas(id_pelis, id_tags) values (?,?)";	// tabla intermedia tags_peliculas junto a la id de la pelicul
+				PreparedStatement state3 = con.prepareStatement(statement_tags);										// que acabo de meter
+				state3.setInt(1, id_peli);
+				state3.setInt(2, id_tags.get(i));
+
+//				statement_tags = statement_tags.replace("id_pog", id_peli);
 //				String statement_tag = statement_tags.replace("id_tog", id_tags.get(i).toString());
-//				state = con.prepareStatement(statement_tag); 														//TODO  USAR CON INTERROGANTES
-//				state.executeUpdate();
-//			}
-//			state.executeUpdate();
-//			state = con.prepareStatement(statement_tags);
-//			state.executeUpdate();
+				state.executeUpdate();
+			}
+
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			new Error("El programa se ha ido a cagar");
+			new Error("El programa se ha ido a cagar"); 				// TODO POR AMOR DE CRISTO HAY QUE CAMBIAR ESTO <--------------------
 			e.printStackTrace();
 		}
 	}

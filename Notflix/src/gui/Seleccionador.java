@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
+import javax.management.loading.PrivateClassLoader;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.plaf.metal.DefaultMetalTheme;
@@ -26,28 +27,29 @@ public class Seleccionador extends JPanel {
     private JButton bEditar;
     private JButton bAnadir;
     private JScrollPane SpList;
-    
+    private Seleccionador Selecionador = this;
     
 
     public Seleccionador( Sesion sesion ) {
        
        // String[] lBuscarItems = {"Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9", "Item 10" ,"Item 11" ,"Item 12" ,"Item 13","Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9", "Item 10" ,"Item 11" ,"Item 12" ,"Item 13"};
-    	ArrayList<String> peli_ini = sesion.buscar("%");
-    	sesion.buscar2("%");
-
+    	
+    	 actualizar(sesion);
         lBuscar = new JList<>(model);
         lBuscar.addListSelectionListener(new ListSelectionListener() {
 			
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				System.out.println(lBuscar.getSelectedValue());
+				
+				if (lBuscar.getValueIsAdjusting() == false){
+					System.out.println(lBuscar.getSelectedValue());
+				}
+				
 				
 			}
 		});
         
-        for(int i = 0; i < peli_ini.size(); i++) {
-        	model.addElement(peli_ini.get(i));
-        }
+       
         
         tBuscar = new JTextField (5);
         bBuscar = new JButton ("Buscar");
@@ -93,7 +95,7 @@ public class Seleccionador extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new Cargador(sesion);
+				new Cargador(sesion, Selecionador);
 				
 			}
 		});
@@ -112,10 +114,29 @@ public class Seleccionador extends JPanel {
 
 			}
 		});
+        
+        bEditar.addActionListener(new ActionListener () {
+        	
+        	public void actionPerformed(ActionEvent e) {
+//        		actualizar(sesion);
+        	}
+        	
+        });
+        
     }
     // TODO	HACER UN METODO PARA ESTO for(int i = 0; i < peli_ini.size(); i++) {
     //	model.addElement(peli_ini.get(i));
     //}
+    
+    public void actualizar(Sesion sesion) {
+    	model.removeAllElements();
+    	ArrayList<String> peli_ini = sesion.buscar("%");
+     	sesion.buscar2("%");
+         
+         for(int i = 0; i < peli_ini.size(); i++) {
+         	model.addElement(peli_ini.get(i));
+         }
+    }
 
 
     public static void main (String[] args) {

@@ -12,11 +12,11 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.event.*;
-import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Cargador extends JPanel {
+	DefaultListModel<String> model = new DefaultListModel<>();
     private JButton bAceptar;
     private JButton bCancelar;
     private JTextField tNombre;
@@ -36,15 +36,32 @@ public class Cargador extends JPanel {
     private ArrayList<Tag> tags;
     private JLabel ltags2;
     private JButton bEliminarTags;
-    private JTextArea tAtags;
+    private JList<String> tAtags;
+    
+    private JScrollPane SpList;
 
-    public Cargador(Sesion sesion) {
+    public Cargador(Sesion sesion, Seleccionador sel) {
         
     	frame = new JFrame ("Cragador");
     	frame.setDefaultCloseOperation (JFrame.DISPOSE_ON_CLOSE);
     	
-    	tags = sesion.buscartaCla("%");
+    	tags = sesion.buscartaClaTa("%");
         //String[] jcomp7Items = {"Item 1", "Item 2", "Item 3"};
+    	
+    	tAtags = new JList<>(model);
+    	tAtags.addListSelectionListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				
+				if (tAtags.getValueIsAdjusting() == false){
+					System.out.println(tAtags.getSelectedValue());
+				}
+				
+				
+			}
+		});
+    	
     	ArrayList<String> nomtags = new ArrayList<String>();
     	for (int i = 0; i < tags.size(); i++ ) {
     		  nomtags.add(tags.get(i).getNombre_tag());
@@ -67,7 +84,9 @@ public class Cargador extends JPanel {
         bAñadirTag = new JButton ("Añadir tags");
         ltags2 = new JLabel ("Tags");
         bEliminarTags = new JButton ("Eliminar Tag");
-        tAtags = new JTextArea (5, 5);
+        
+        SpList = new JScrollPane(tAtags);
+        SpList.setViewportView(tAtags);
 
         
 
@@ -134,11 +153,12 @@ public class Cargador extends JPanel {
 					System.out.println("entro");
 					new Error("Por favor, rellene todos los campos");
 				}
+				
 				//ArrayList<integer> =  //TODO SACAR LAS id de los tags añadidos
 				
-
 				sesion.meter_peli(nom, dir, ruta_archivo, ruta_imagen, tags, anyo);
-				
+				sel.actualizar(sesion);
+				cerrar();
 			}
 		});
         
@@ -146,7 +166,9 @@ public class Cargador extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new Error("Falta implementar anadir tags");
+				
+				
+//				new Error("Falta implementar anadir tags");
 				
 			}
 		});
@@ -239,6 +261,7 @@ public class Cargador extends JPanel {
     }
 
     private void cerrar(){
+    	//TODO AÑADIR QUE ACTUALICE EL SELECCIONADOR
     	this.frame.dispose();
     }
 

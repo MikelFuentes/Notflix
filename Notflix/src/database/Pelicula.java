@@ -9,16 +9,16 @@ public class Pelicula {
 	String director;
 	String archi;
 	String imagen;
-	ArrayList<Integer> id_tag;
 
-	public Pelicula(int id, String nombre, String año, String director, String archi, String imagen, ArrayList<Integer> id_tags) {
+
+	public Pelicula(int id, String nombre, String año, String director, String archi, String imagen){
 		this.id = id;
 		this.nombre = nombre;
 		this.año = año;
 		this.director = director;
 		this.archi = archi;
 		this.imagen = imagen;
-		this.id_tag = id_tags;
+		
 		
 	}
 
@@ -36,6 +36,11 @@ public class Pelicula {
 
 	public String getImagen() {
 		return imagen;
+	}
+
+	@Override
+	public String toString() {
+		return "Pelicula [nombre=" + nombre + "]";
 	}
 	
 	

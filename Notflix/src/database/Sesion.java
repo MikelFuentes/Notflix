@@ -35,10 +35,10 @@ public class Sesion {
 		ArrayList<String> resul = new ArrayList<>();
 //		System.out.println(qwer);
 		try {
-			PreparedStatement sta = con.prepareStatement(qwer); //TODO fix nullpointerexception
-			sta.setString(1,d);								//No se pq, pero no detecta la conexion creada antes
-//            System.out.println(sta);							//he probado a darle una conexion junto al string
-			ResultSet set = sta.executeQuery();					//pero no hace nada, sigue igual
+			PreparedStatement sta = con.prepareStatement(qwer);	 	//TODO fix nullpointerexception
+			sta.setString(1,d);										//No se pq, pero no detecta la conexion creada antes
+//            System.out.println(sta);								//he probado a darle una conexion junto al string
+			ResultSet set = sta.executeQuery();						//pero no hace nada, sigue igual
 			while(set.next()) {
 				
 				resul.add(set.getString("nombre"));
@@ -86,7 +86,7 @@ public class Sesion {
 
 
 			for (int i = 0; i<id_tags.size(); i++) {  																	// Recorro el Arraylist de tags que he pasado y los meto en la
-				String statement_tags = "insert into tags_peliculas(id_pelis, id_tags) values (?,?)";	// tabla intermedia tags_peliculas junto a la id de la pelicul
+				String statement_tags = "insert into tags_peliculas(id_pelis, id_tags) values (?,?)";					// tabla intermedia tags_peliculas junto a la id de la pelicul
 				PreparedStatement state3 = con.prepareStatement(statement_tags);										// que acabo de meter
 				state3.setInt(1, id_peli);
 				state3.setInt(2, id_tags.get(i));
@@ -128,25 +128,35 @@ public class Sesion {
 		return resul;
 		
 	}
-	public ArrayList buscartaCla (String z) {
+	public ArrayList buscartaClaTa (String z)  {
 		System.out.println("me llama");
-		String qwer = "SELECT * from tags where nombre_tag LIKE 'z' ;";
-		qwer = qwer.replace("z", z);
+		ResultSet set = null;
+		String qwer = "SELECT * from tags where nombre_tag LIKE ? ;";
+		try {
+			PreparedStatement state = con.prepareStatement(qwer);
+			state.setString(1, z);
+			set = state.executeQuery();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}	
+		ArrayList<Tag> tagsResul = new ArrayList<Tag>();
 		
-		Tag tag_datos;
 		ArrayList<Tag> resul = new ArrayList<>();
 		try {
-			PreparedStatement sta = con.prepareStatement(qwer);
-			ResultSet set = sta.executeQuery();
 			while (set.next()){
-				tag_datos = new Tag(set.getString("nombre_tag"), set.getInt("id_tag"));
-				
-				resul.add(tag_datos);
-				
+				String nomTag = set.getString("nombre_tag");
+				int idTag = set.getInt("id_tag");
+				Tag unRes = new Tag(nomTag, idTag);
+				resul.add(unRes);
 			}
-		} catch (Exception e) {
 		
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+
+		
 		return resul;
 	}
 	

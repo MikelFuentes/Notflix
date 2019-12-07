@@ -37,6 +37,6 @@ public class PeliculaTest {
     }
 
     @Test
-    public void toString() {
+    public void testtoString() {
     }
 }

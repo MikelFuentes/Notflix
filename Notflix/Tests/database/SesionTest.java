@@ -1,50 +1,36 @@
 package database;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
-class SesionTest {
+public class SesionTest {
 
-    private Sesion sesion;
-
-
-    @BeforeEach     //Hace el setup antes de cada funcion
-    void setUp() {
-
-    }
-
-    @AfterEach      //Hace el teardown desùes de cada funcion
-    void tearDown() {
+    @Test
+    public void getCon() {
     }
 
     @Test
-    void getCon() {
+    public void crear() {
     }
 
     @Test
-    void crear() {
+    public void buscar() {
     }
 
     @Test
-    void buscar() {
+    public void meter_peli() {
     }
 
     @Test
-    void meter_peli() {
+    public void buscar2() {
     }
 
     @Test
-    void buscar2() {
+    public void buscarPorUnTag() {
     }
 
     @Test
-    void buscarPorUnTag() {
-    }
-
-    @Test
-    void buscartaClaTa() {
+    public void buscartaClaTa() {
     }
 }

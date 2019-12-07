@@ -1,24 +1,34 @@
 package database;
 
-import org.junit.jupiter.api.Test;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
-class VisualTest {
+public class VisualTest {
 
-    @Test
-    void getNombre() {
+    @Before
+    public void setUp() throws Exception {
+    }
+
+    @After
+    public void tearDown() throws Exception {
     }
 
     @Test
-    void getDirector() {
+    public void getNombre() {
     }
 
     @Test
-    void getArchi() {
+    public void getDirector() {
     }
 
     @Test
-    void getImagen() {
+    public void getArchi() {
+    }
+
+    @Test
+    public void getImagen() {
     }
 }

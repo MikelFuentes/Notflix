@@ -1,20 +1,30 @@
 package database;
 
-import org.junit.jupiter.api.Test;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
-class TagTest {
+public class TagTest {
 
-    @Test
-    void getId_tag() {
+    @Before
+    public void setUp() throws Exception {
+    }
+
+    @After
+    public void tearDown() throws Exception {
     }
 
     @Test
-    void getNombre_tag() {
+    public void getId_tag() {
     }
 
     @Test
-    void testtoString() {
+    public void getNombre_tag() {
+    }
+
+    @Test
+    public void testtoString() {
     }
 }

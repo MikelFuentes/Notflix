@@ -1,26 +1,26 @@
 package gui;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
-class SeleccionadorTest {
+public class SeleccionadorTest {
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() throws Exception {
     }
 
-    @AfterEach
-    void tearDown() {
-    }
-
-    @Test
-    void actualizar() {
+    @After
+    public void tearDown() throws Exception {
     }
 
     @Test
-    void main() {
+    public void actualizar() {
+    }
+
+    @Test
+    public void main() {
     }
 }

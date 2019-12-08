@@ -4,8 +4,12 @@ package gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.management.loading.PrivateClassLoader;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -29,21 +33,41 @@ public class Seleccionador extends JPanel {
     private JButton bAnadir;
     private JScrollPane SpList;
     private Seleccionador Selecionador = this;
+    private BufferedImage bufImg;
+    private ImageIcon imgIc;
+    private JLabel imgLbl;
+    private Pelicula peliSel;
+   
     
 
     public Seleccionador( Sesion sesion ) {
        
        // String[] lBuscarItems = {"Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9", "Item 10" ,"Item 11" ,"Item 12" ,"Item 13","Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9", "Item 10" ,"Item 11" ,"Item 12" ,"Item 13"};
     	
-    	 actualizar(sesion);
+    	actualizar(sesion);
+    	imgLbl = new JLabel();
+    	add (imgLbl);
         lBuscar = new JList<Pelicula>(model);
+        
         lBuscar.addListSelectionListener(new ListSelectionListener() {
-			
+        
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				
 				if (lBuscar.getValueIsAdjusting() == false){
-					System.out.println(lBuscar.getSelectedValue());
+					peliSel = lBuscar.getSelectedValue();
+					try {
+						bufImg = ImageIO.read(new File(peliSel.getImagen()));
+						imgIc = new ImageIcon(bufImg);
+						imgLbl.setIcon(imgIc);
+						
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					System.out.println(peliSel.getImagen());
+					
 				}
 				
 				
@@ -80,7 +104,7 @@ public class Seleccionador extends JPanel {
         add (bEditar);
         add (bAnadir);
         add (SpList);
-
+        
         
         //lBuscar.setBounds (80, 110, 250, 350);
         tBuscar.setBounds (80, 60, 250, 30);
@@ -91,6 +115,7 @@ public class Seleccionador extends JPanel {
         bEditar.setBounds (305, 485, 150, 30);
         bAnadir.setBounds (515, 485, 150, 30);
         SpList.setBounds(80, 110, 250, 350);
+        imgLbl.setBounds(400, 110, 260, 260);
         
         bAnadir.addActionListener(new ActionListener() {
 			

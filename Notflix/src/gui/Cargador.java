@@ -1,6 +1,7 @@
 package gui;
 
 
+import database.Pelicula;
 import database.Sesion;
 import database.Tag;
 
@@ -17,6 +18,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Cargador extends JPanel {
 	DefaultListModel<String> model = new DefaultListModel<>();
+	DefaultListModel<Tag> modell = new DefaultListModel<>();
     private JButton bAceptar;
     private JButton bCancelar;
     private JTextField tNombre;
@@ -36,8 +38,8 @@ public class Cargador extends JPanel {
     private ArrayList<Tag> tags;
     private JLabel ltags2;
     private JButton bEliminarTags;
-    private JList<String> tAtags;
-    
+    private JList<Tag> tAtags;
+    private Tag selTag;
     private JScrollPane SpList;
 
     public Cargador(Sesion sesion, Seleccionador sel) {
@@ -48,13 +50,14 @@ public class Cargador extends JPanel {
     	tags = sesion.buscartaClaTa("%");
         //String[] jcomp7Items = {"Item 1", "Item 2", "Item 3"};
     	
-    	tAtags = new JList<>(model);
+    	tAtags = new JList<Tag>(modell);
     	tAtags.addListSelectionListener(new ListSelectionListener() {
 			
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				
 				if (tAtags.getValueIsAdjusting() == false){
+					selTag = tAtags.getSelectedValue();
 					System.out.println(tAtags.getSelectedValue());
 				}
 				
@@ -62,9 +65,9 @@ public class Cargador extends JPanel {
 			}
 		});
     	
-    	ArrayList<String> nomtags = new ArrayList<String>();
+    	ArrayList<Tag> nomtags = new ArrayList<Tag>();
     	for (int i = 0; i < tags.size(); i++ ) {
-    		  nomtags.add(tags.get(i).getNombre_tag());
+    		  nomtags.add(tags.get(i));
     	}
         
         bAceptar = new JButton ("Aceptar");
@@ -120,9 +123,11 @@ public class Cargador extends JPanel {
         frame.add (aTimagen);	//area de la imagen
         frame.add (aTarchi);	//que archivo está cargado
         
-        frame.add (ltags2);
-        frame.add (bEliminarTags);
         frame.add (tAtags);
+        frame.add (bEliminarTags);
+        frame.add (ltags2);
+        
+        
         
         
         bAceptar.addActionListener(new ActionListener() {
@@ -139,7 +144,11 @@ public class Cargador extends JPanel {
 				String ruta_archivo = aTarchi.getText();
 				String ruta_imagen = aTimagen.getText();
 				ArrayList <Integer> tags = new ArrayList<Integer>();
-				tags.add(cBTags.getSelectedIndex());
+				for (int i = 0; i < modell.getSize(); i++) {
+					tags.add(modell.getElementAt(i).getId_tag());
+				}
+				
+				
 				
 				System.out.println(nom); 
 				if (ruta_archivo.equals("")	) {
@@ -166,6 +175,13 @@ public class Cargador extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if (cBTags.getItemCount() != 0) {
+					Tag tagSeTag = (Tag) cBTags.getSelectedItem();
+					
+					modell.addElement(tagSeTag);
+					cBTags.removeItemAt(cBTags.getSelectedIndex());
+				}
+				
 				
 				
 //				new Error("Falta implementar anadir tags");
@@ -226,6 +242,17 @@ public class Cargador extends JPanel {
             }
 		});
         
+        bEliminarTags.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (modell.getSize() != 0 && tAtags.getSelectedValue() != null) {
+					cBTags.insertItemAt(selTag, cBTags.getItemCount());
+					modell.remove(tAtags.getSelectedIndex());
+				}
+			}
+		});
+        
         bCancelar.addActionListener(new ActionListener() {
 			
 			@Override
@@ -261,7 +288,6 @@ public class Cargador extends JPanel {
     }
 
     private void cerrar(){
-    	//TODO AÑADIR QUE ACTUALICE EL SELECCIONADOR
     	this.frame.dispose();
     }
 

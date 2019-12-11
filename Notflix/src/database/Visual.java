@@ -9,16 +9,17 @@ public class Visual {
 	String director;
 	String archi;
 	String imagen;
-	ArrayList<Integer> id_tag;
+	ArrayList<Tag> tags = new ArrayList<Tag>();
 
-	public Visual(int id, String nombre, String año, String director, String archi, String imagen, ArrayList<Integer> id_tags) {
+
+	public Visual(int id, String nombre, String año, String director, String archi, String imagen, ArrayList<Tag> tags){
 		this.id = id;
 		this.nombre = nombre;
 		this.año = año;
 		this.director = director;
 		this.archi = archi;
 		this.imagen = imagen;
-		this.id_tag = id_tags;
+		this.tags = tags;
 		
 	}
 
@@ -37,5 +38,13 @@ public class Visual {
 	public String getImagen() {
 		return imagen;
 	}
-	
+
+	public ArrayList<Tag> getTags() {
+		return tags;
+	}
+
+	@Override
+	public String toString() {
+		return nombre;
+	}
 }

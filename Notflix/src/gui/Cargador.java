@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
+import javax.lang.model.type.NullType;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.filechooser.FileFilter;
@@ -41,6 +42,11 @@ public class Cargador extends JPanel {
     private JList<Tag> tAtags;
     private Tag selTag;
     private JScrollPane SpList;
+    private JRadioButton rbDoc;
+    private JRadioButton rbPeli;
+    private ButtonGroup grupo;
+    private JComboBox<String> cbTema;
+    private JComboBox<String> cbIdioma;
 
     public Cargador(Sesion sesion, Seleccionador sel) {
         
@@ -90,8 +96,15 @@ public class Cargador extends JPanel {
         
         SpList = new JScrollPane(tAtags);
         SpList.setViewportView(tAtags);
-
+        rbDoc = new JRadioButton("Documental");
+        rbPeli = new JRadioButton("Pelicula");
         
+        grupo = new ButtonGroup();
+        grupo.add(rbDoc);
+        grupo.add(rbPeli);
+        
+        String[] tema = {"Aimales", "Espacio", "Ciencia"};
+		cbTema = new JComboBox<String>(tema);
 
         
         frame.setPreferredSize (new Dimension (944, 574));
@@ -126,6 +139,9 @@ public class Cargador extends JPanel {
         frame.add (tAtags);
         frame.add (bEliminarTags);
         frame.add (ltags2);
+        frame.add(rbDoc);
+        frame.add(rbPeli);
+        frame.add(cbTema);
         
         
         
@@ -185,6 +201,18 @@ public class Cargador extends JPanel {
 				
 				
 //				new Error("Falta implementar anadir tags");
+				
+			}
+		});
+        
+        rbDoc.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//TODO
+				
+				
+				cbTema.setBounds(600, 100, 235, 50 );
 				
 			}
 		});
@@ -277,12 +305,14 @@ public class Cargador extends JPanel {
         lAño.setBounds (60, 325, 100, 25);
         bImagen.setBounds (580, 375, 300, 25);
         bMedia.setBounds (580, 475, 300, 25);
-        aTimagen.setBounds (580, 50, 300, 330);
+        aTimagen.setBounds (580, 250, 300, 130);
         aTarchi.setBounds (580, 430, 300, 55);
         bAñadirTag.setBounds (310, 250, 100, 50);
         ltags2.setBounds (440, 115, 100, 25);
         bEliminarTags.setBounds (440, 350, 105, 50);
         tAtags.setBounds (440, 140, 105, 215);
+        rbPeli.setBounds(600, 25, 100, 15 );
+        rbDoc.setBounds(800, 25, 100, 15 );
         
         frame.setVisible (true);
     }

@@ -56,15 +56,16 @@ public class Seleccionador extends JPanel {
 				
 				if (lBuscar.getValueIsAdjusting() == false){
 					peliSel = lBuscar.getSelectedValue();
-					try {
-						bufImg = ImageIO.read(new File(peliSel.getImagen()));
-						imgIc = new ImageIcon(bufImg);
-						imgLbl.setIcon(imgIc);
+										
+						ImageIcon imageIcon = new ImageIcon(peliSel.getImagen());
+						Image image = imageIcon.getImage();
+						Image newimg = image.getScaledInstance(260, 260,  java.awt.Image.SCALE_SMOOTH);
+						imageIcon = new ImageIcon(newimg); 
+												
+						imgLbl.setIcon(imageIcon);
 						
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+						
+					
 					
 					System.out.println(peliSel.getImagen());
 					
@@ -116,6 +117,7 @@ public class Seleccionador extends JPanel {
         bAnadir.setBounds (515, 485, 150, 30);
         SpList.setBounds(80, 110, 250, 350);
         imgLbl.setBounds(400, 110, 260, 260);
+       
         
         bAnadir.addActionListener(new ActionListener() {
 			

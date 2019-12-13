@@ -98,6 +98,7 @@ public class Cargador extends JPanel {
         SpList.setViewportView(tAtags);
         rbDoc = new JRadioButton("Documental");
         rbPeli = new JRadioButton("Pelicula");
+        rbDoc.setSelected(true);
         
         grupo = new ButtonGroup();
         grupo.add(rbDoc);
@@ -105,7 +106,8 @@ public class Cargador extends JPanel {
         
         String[] tema = {"Aimales", "Espacio", "Ciencia"};
 		cbTema = new JComboBox<String>(tema);
-
+		String[] idioma = {"Inglés", "Español", "Francés"};
+		cbIdioma = new JComboBox<String>(idioma);
         
         frame.setPreferredSize (new Dimension (944, 574));
         frame.setLayout (null);
@@ -115,6 +117,7 @@ public class Cargador extends JPanel {
         
         aTarchi.setEditable(false);
         aTimagen.setEditable(false);
+        
         
         frame.add (bAceptar);
         frame.add (bCancelar);
@@ -142,7 +145,7 @@ public class Cargador extends JPanel {
         frame.add(rbDoc);
         frame.add(rbPeli);
         frame.add(cbTema);
-        
+        frame.add(cbIdioma);
         
         
         
@@ -159,6 +162,8 @@ public class Cargador extends JPanel {
 				String anyo = tAño.getText();
 				String ruta_archivo = aTarchi.getText();
 				String ruta_imagen = aTimagen.getText();
+				String tema = (String) cBTags.getSelectedItem();
+				String idoma = (String) cbIdioma.getSelectedItem();
 				ArrayList <Integer> tags = new ArrayList<Integer>();
 				for (int i = 0; i < modell.getSize(); i++) {
 					tags.add(modell.getElementAt(i).getId_tag());
@@ -173,14 +178,21 @@ public class Cargador extends JPanel {
 				}
 				if (ruta_imagen.equals("")) {
 					new Error("Por favor, seleccione ruta de la imagen");
+					return;
 				}
 				if (nom.equals("") || dir.equals("") || anyo.equals("")) {
-					System.out.println("entro");
 					new Error("Por favor, rellene todos los campos");
+					return;
 				}
-				
+				if (tema == null && idoma == null) {
+					new Error("por favor selecciones tema o Idioma");
+					return;
+					
+				}
 				//ArrayList<integer> =  //TODO SACAR LAS id de los tags añadidos
-				
+				if (rbDoc.isSelected()) {
+					
+				}
 				sesion.meter_peli(nom, dir, ruta_archivo, ruta_imagen, tags, anyo);
 				sel.actualizar(sesion);
 				cerrar();
@@ -213,6 +225,24 @@ public class Cargador extends JPanel {
 						
 				cbTema.setBounds(600, 100, 235, 50 );
 				frame.getContentPane().revalidate();
+				cbTema.setVisible(true);
+				if (cbIdioma.isVisible()) {
+					cbIdioma.setVisible(false);
+				}
+			}
+		});
+        
+        rbPeli.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cbIdioma.setBounds(600, 100, 235, 50 );
+				frame.getContentPane().revalidate();
+				cbIdioma.setVisible(true);
+				if (cbTema.isVisible()){
+					cbTema.setVisible(false);
+				}
+				
 			}
 		});
         

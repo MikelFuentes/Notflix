@@ -183,7 +183,7 @@ public class Sesion {
 			e.printStackTrace();
 		}
 		return resul;
-
+		
 	}
 	
 	public ArrayList buscartaClaTa (String z)  {
@@ -206,7 +206,7 @@ public class Sesion {
 				Tag unRes = new Tag(nomTag, idTag);
 				resul.add(unRes);
 			}
-		
+		//ss
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

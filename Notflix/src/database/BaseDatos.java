@@ -16,7 +16,7 @@ public class BaseDatos {
         Connection connection = null;
 
         try {
-            connection = DriverManager.getConnection("jdbc:sqlite:src/database/Database");
+            connection = DriverManager.getConnection("jdbc:sqlite:Notflix/src/database/Database");
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(100);
 

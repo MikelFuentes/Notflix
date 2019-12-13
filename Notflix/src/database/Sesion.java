@@ -24,7 +24,7 @@ public class Sesion {
 	 */
 	public void Crear() {
 		try {
-			String url = "jdbc:sqlite:src/database/Database"; //TODO AÑADIR O QUITAR "Notflix/"
+			String url = "jdbc:sqlite:Notflix/src/database/Database"; //TODO AÑADIR O QUITAR "Notflix/"
 			System.out.println("antessss");
 			this.con = DriverManager.getConnection(url);
 			System.out.println(this.con);
@@ -134,7 +134,9 @@ public class Sesion {
 		String qwer = "SELECT *  from peliculas where nombre LIKE ?;";
 		ArrayList<Pelicula> resul = new ArrayList<>();
 		ArrayList<Tag> listaTags = new ArrayList<Tag>();
+		System.out.println(qwer);
 		try {
+			System.out.println(con);
 			PreparedStatement sta = con.prepareStatement(qwer); //TODO arreglar nullpoiter
 			sta.setString(1, d);								//ns como lo has hecho en el de arriba, pero creo que pasa lo mismo aqui
 			ResultSet set = sta.executeQuery();

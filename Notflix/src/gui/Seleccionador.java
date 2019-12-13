@@ -56,13 +56,21 @@ public class Seleccionador extends JPanel {
 				
 				if (lBuscar.getValueIsAdjusting() == false){
 					peliSel = lBuscar.getSelectedValue();
-										
+					if (peliSel == null) {
+						imgLbl.setIcon(null);
+						return;
+					}
+					try {
 						ImageIcon imageIcon = new ImageIcon(peliSel.getImagen());
 						Image image = imageIcon.getImage();
 						Image newimg = image.getScaledInstance(260, 260,  java.awt.Image.SCALE_SMOOTH);
 						imageIcon = new ImageIcon(newimg); 
 												
 						imgLbl.setIcon(imageIcon);
+					} catch (Exception e2) {
+						new Error("intentelo otra vez");
+					}					
+						
 						
 						
 					

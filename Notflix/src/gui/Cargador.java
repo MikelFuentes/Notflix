@@ -210,10 +210,9 @@ public class Cargador extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//TODO
-				
-				
+						
 				cbTema.setBounds(600, 100, 235, 50 );
-				
+				frame.getContentPane().revalidate();
 			}
 		});
         
@@ -310,7 +309,7 @@ public class Cargador extends JPanel {
         bAñadirTag.setBounds (310, 250, 100, 50);
         ltags2.setBounds (440, 115, 100, 25);
         bEliminarTags.setBounds (440, 350, 105, 50);
-        tAtags.setBounds (440, 140, 105, 215);
+        tAtags.setBounds (440, 140, 105, 210);
         rbPeli.setBounds(600, 25, 100, 15 );
         rbDoc.setBounds(800, 25, 100, 15 );
         

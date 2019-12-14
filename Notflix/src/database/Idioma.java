@@ -1,25 +1,32 @@
 package database;
 
 public class Idioma {
-	String idIdioma;
+	int idIdioma;
 	String nombreIdioma;
 
 	
 	
-	public Idioma(String idIdioma, String idioma) {
+	public Idioma(int idIdioma, String idioma) {
 		this.idIdioma = idIdioma;
 		this.nombreIdioma = idioma;		
 	}
 
 
 
-	public String getIdIdioma() {
+	public int getIdIdioma() {
 		return idIdioma;
 	}
 
 
 
 	public String getNombreIdioma() {
+		return nombreIdioma;
+	}
+
+
+
+	@Override
+	public String toString() {
 		return nombreIdioma;
 	}
 }

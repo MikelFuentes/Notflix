@@ -22,4 +22,11 @@ public class Tema {
 	public String getNombreTema() {
 		return nombreTema;
 	}
+
+
+
+	@Override
+	public String toString() {
+		return nombreTema;
+	}
 }

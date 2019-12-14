@@ -1,9 +1,11 @@
 package gui;
 
 
+import database.Idioma;
 import database.Pelicula;
 import database.Sesion;
 import database.Tag;
+import database.Tema;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -18,8 +20,11 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Cargador extends JPanel {
-	DefaultListModel<String> model = new DefaultListModel<>();
-	DefaultListModel<Tag> modell = new DefaultListModel<>();
+//	DefaultListModel<String> model = new DefaultListModel<>();
+	DefaultListModel<Tag> modelTag = new DefaultListModel<>();
+//	DefaultListModel<Idioma> modelIdioma = new DefaultListModel<Idioma>();
+//	DefaultListModel<Tema> modelTema = new DefaultListModel<Tema>();
+	
     private JButton bAceptar;
     private JButton bCancelar;
     private JTextField tNombre;
@@ -37,6 +42,8 @@ public class Cargador extends JPanel {
     private JButton bAñadirTag;
     private JFrame frame;
     private ArrayList<Tag> tags;
+    private ArrayList<Tema> temas;
+    private ArrayList<Idioma> idiomas;
     private JLabel ltags2;
     private JButton bEliminarTags;
     private JList<Tag> tAtags;
@@ -56,7 +63,7 @@ public class Cargador extends JPanel {
     	tags = sesion.buscartaClaTa("%");
         //String[] jcomp7Items = {"Item 1", "Item 2", "Item 3"};
     	
-    	tAtags = new JList<Tag>(modell);
+    	tAtags = new JList<Tag>(modelTag);
     	tAtags.addListSelectionListener(new ListSelectionListener() {
 			
 			@Override
@@ -71,10 +78,10 @@ public class Cargador extends JPanel {
 			}
 		});
     	
-    	ArrayList<Tag> nomtags = new ArrayList<Tag>();
-    	for (int i = 0; i < tags.size(); i++ ) {
-    		  nomtags.add(tags.get(i));
-    	}
+//    	ArrayList<Tag> nomtags = new ArrayList<Tag>();
+//    	for (int i = 0; i < tags.size(); i++ ) {
+//    		  nomtags.add(tags.get(i));
+//    	}
         
         bAceptar = new JButton ("Aceptar");
         bCancelar = new JButton ("Cancelar");
@@ -82,7 +89,7 @@ public class Cargador extends JPanel {
         tDirector = new JTextField (5);
         tAño = new JTextField (5);
         lNombre = new JLabel ("Nombre");
-        cBTags = new JComboBox (nomtags.toArray());
+        cBTags = new JComboBox (tags.toArray());
         lDirector = new JLabel ("Director");
         lTags = new JLabel ("Tags");
         lAño = new JLabel ("Año");
@@ -104,10 +111,11 @@ public class Cargador extends JPanel {
         grupo.add(rbDoc);
         grupo.add(rbPeli);
         
-        String[] tema = {"Aimales", "Espacio", "Ciencia"};
-		cbTema = new JComboBox<String>(tema);
-		String[] idioma = {"Inglés", "Español", "Francés"};
-		cbIdioma = new JComboBox<String>(idioma);
+        idiomas = sesion.buscartaClaTem("%");
+        cbTema = new JComboBox(idiomas.toArray());
+		
+        idiomas = sesion.buscartaClaIdioma("%");
+		cbIdioma = new JComboBox(idiomas.toArray());
         
         frame.setPreferredSize (new Dimension (944, 574));
         frame.setLayout (null);
@@ -165,8 +173,8 @@ public class Cargador extends JPanel {
 //				String tema = (String) cBTags.getSelectedItem();
 //				String idoma = (String) cbIdioma.getSelectedItem();
 				ArrayList <Integer> tags = new ArrayList<Integer>();
-				for (int i = 0; i < modell.getSize(); i++) {
-					tags.add(modell.getElementAt(i).getId_tag());
+				for (int i = 0; i < modelTag.getSize(); i++) {
+					tags.add(modelTag.getElementAt(i).getId_tag());
 				}
 				
 				
@@ -206,7 +214,7 @@ public class Cargador extends JPanel {
 				if (cBTags.getItemCount() != 0) {
 					Tag tagSeTag = (Tag) cBTags.getSelectedItem();
 					
-					modell.addElement(tagSeTag);
+					modelTag.addElement(tagSeTag);
 					cBTags.removeItemAt(cBTags.getSelectedIndex());
 				}
 				
@@ -303,9 +311,9 @@ public class Cargador extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (modell.getSize() != 0 && tAtags.getSelectedValue() != null) {
+				if (modelTag.getSize() != 0 && tAtags.getSelectedValue() != null) {
 					cBTags.insertItemAt(selTag, cBTags.getItemCount());
-					modell.remove(tAtags.getSelectedIndex());
+					modelTag.remove(tAtags.getSelectedIndex());
 				}
 			}
 		});

@@ -62,6 +62,24 @@ public class BaseDatos {
 //                    "PRIMARY KEY (id_peli),\n" +
 //                    "FOREIGN KEY (fk_tags) REFERENCES tags(id_tag)" +
 //                    ");");
+            
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS tema ("
+            		+ "id_tema INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+            		+ "nombre_tema varchar(150) NOT NULL"
+            		+ ");");
+            res = statement.executeUpdate("insert into tema (nombre_tema) values ('Animales')");
+            res = statement.executeUpdate("insert into tema (nombre_tema) values ('Espacio')");
+            res = statement.executeUpdate("insert into tema (nombre_tema) values ('Medio Ambiente')");
+            
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS idioma ("
+            		+ "id_idioma INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+            		+ "nombre_idioma varchar(150) NOT NULL"
+            		+ ");");
+            res = statement.executeUpdate("insert into idioma (nombre_idioma) values ('Castellano')"); 
+            res = statement.executeUpdate("insert into idioma (nombre_idioma) values ('Ingles')"); 
+            res = statement.executeUpdate("insert into idioma (nombre_idioma) values ('Frances')"); 
+            
+            
 //            
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS peliculas ("
             		+"id_peli INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -69,7 +87,11 @@ public class BaseDatos {
             		+"anyo varchar(4) NOT NULL,"
             		+"director varchar(150) NOT NULL,"
             		+"archivo varchar(150) NOT NULL,"
-            		+"imagen varchar(150) NOT NULL"
+            		+"imagen varchar(150) NOT NULL,"
+            		+"tema int,"
+            		+"idioma int,"
+            		+"FOREIGN KEY(tema) REFERENCES tags(id_tema),"
+            		+"FOREIGN KEY(idioma) REFERENCES tags(id_idioma)"
             		+" );");
 //            		+"fk_tags INTEGER NOT NULL,"
 //            		+"FOREIGN KEY(fk_tags) REFERENCES tags(id_tag)"
@@ -115,21 +137,7 @@ public class BaseDatos {
             		+"rango int NOT NULL"
             		+");");
             
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS tema ("
-            		+ "id_tema INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
-            		+ "nombre_tema varchar(150) NOT NULL"
-            		+ ");");
-            res = statement.executeUpdate("insert into tema (nombre_tema) values ('Animales')");
-            res = statement.executeUpdate("insert into tema (nombre_tema) values ('Espacio')");
-            res = statement.executeUpdate("insert into tema (nombre_tema) values ('Medio Ambiente')");
             
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS idioma ("
-            		+ "id_idioma INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
-            		+ "nombre_idioma varchar(150) NOT NULL"
-            		+ ");");
-            res = statement.executeUpdate("insert into idioma (nombre_idioma) values ('Castellano')"); 
-            res = statement.executeUpdate("insert into idioma (nombre_idioma) values ('Ingles')"); 
-            res = statement.executeUpdate("insert into idioma (nombre_idioma) values ('Frances')"); 
             
             System.out.println("paso 3");
             

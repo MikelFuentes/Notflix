@@ -189,7 +189,6 @@ public class Sesion {
 	}
 	
 	public ArrayList buscartaClaTa (String z)  {
-		System.out.println("me llama");
 		ResultSet set = null;
 		String qwer = "SELECT * from tags where nombre_tag LIKE ? ;";
 		try {
@@ -217,5 +216,38 @@ public class Sesion {
 		
 		return resul;
 	}
+	
+//	public ArrayList buscartaClaTa (String z)  {
+//		ResultSet set = null;
+//		String qwer = "SELECT * from tags where nombre_tag LIKE ? ;";
+//		try {
+//			PreparedStatement state = con.prepareStatement(qwer);
+//			state.setString(1, z);
+//			set = state.executeQuery();
+//		} catch (SQLException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}	
+//		ArrayList<Tag> resul = new ArrayList<>();
+//		try {
+//			while (set.next()){
+//				String nomTag = set.getString("nombre_tag");
+//				int idTag = set.getInt("id_tag");
+//				Tag unRes = new Tag(nomTag, idTag);
+//				resul.add(unRes);
+//			}
+//		//ss
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//
+//		
+//		return resul;
+//	}
+	
+	
+	
+	
 	
 }

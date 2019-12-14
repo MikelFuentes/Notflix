@@ -26,6 +26,8 @@ public class BaseDatos {
             statement.executeUpdate("DROP TABLE IF EXISTS peliculas");
             statement.executeUpdate("DROP TABLE IF EXISTS tags");
             statement.executeUpdate("DROP TABLE IF EXISTS usuarios");
+            statement.executeUpdate("DROP TABLE IF EXISTS tags_peliculas");
+            
 
 //            statement.executeUpdate("create table tags(" +
 //                    "id_tag int not null auto_increment," +
@@ -112,7 +114,22 @@ public class BaseDatos {
             		+"password VARCHAR(100) NOT NULL,"
             		+"rango int NOT NULL"
             		+");");
-
+            
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS tema ("
+            		+ "id_tema INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+            		+ "nombre_tema varchar(150) NOT NULL"
+            		+ ");");
+            res = statement.executeUpdate("insert into tema (nombre_tema) values ('Animales')");
+            res = statement.executeUpdate("insert into tema (nombre_tema) values ('Espacio')");
+            res = statement.executeUpdate("insert into tema (nombre_tema) values ('Medio Ambiente')");
+            
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS idioma ("
+            		+ "id_idioma INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+            		+ "nombre_idioma varchar(150) NOT NULL"
+            		+ ");");
+            res = statement.executeUpdate("insert into idioma (nombre_idioma) values ('Castellano')"); 
+            res = statement.executeUpdate("insert into idioma (nombre_idioma) values ('Ingles')"); 
+            res = statement.executeUpdate("insert into idioma (nombre_idioma) values ('Frances')"); 
             
             System.out.println("paso 3");
             

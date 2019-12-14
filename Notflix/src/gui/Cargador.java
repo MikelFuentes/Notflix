@@ -98,7 +98,7 @@ public class Cargador extends JPanel {
         SpList.setViewportView(tAtags);
         rbDoc = new JRadioButton("Documental");
         rbPeli = new JRadioButton("Pelicula");
-        rbDoc.setSelected(true);
+        
         
         grupo = new ButtonGroup();
         grupo.add(rbDoc);
@@ -162,8 +162,8 @@ public class Cargador extends JPanel {
 				String anyo = tAño.getText();
 				String ruta_archivo = aTarchi.getText();
 				String ruta_imagen = aTimagen.getText();
-				String tema = (String) cBTags.getSelectedItem();
-				String idoma = (String) cbIdioma.getSelectedItem();
+//				String tema = (String) cBTags.getSelectedItem();
+//				String idoma = (String) cbIdioma.getSelectedItem();
 				ArrayList <Integer> tags = new ArrayList<Integer>();
 				for (int i = 0; i < modell.getSize(); i++) {
 					tags.add(modell.getElementAt(i).getId_tag());
@@ -184,11 +184,11 @@ public class Cargador extends JPanel {
 					new Error("Por favor, rellene todos los campos");
 					return;
 				}
-				if (tema == null && idoma == null) {
-					new Error("por favor selecciones tema o Idioma");
-					return;
-					
-				}
+//				if (tema == null && idioma == null) {
+//					new Error("por favor selecciones tema o Idioma");
+//					return;
+//					
+//				}
 				//ArrayList<integer> =  //TODO SACAR LAS id de los tags añadidos
 				if (rbDoc.isSelected()) {
 					

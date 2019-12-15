@@ -71,8 +71,8 @@ public class Sesion {
 	 * @param id_tags Array con las id de la pelicula
 	 * @param anio Año en el que salió la pelicula
 	 */
-	public void meter_peli (String nom, String dir, String ruta_archivo, String ruta_imagen, ArrayList<Integer> id_tags, String anio){
-		String statement = "INSERT INTO peliculas (nombre, anyo, director, archivo, imagen) VALUES (?,?,?,?,?);";
+	public void meter_peli (String nom, String dir, String ruta_archivo, String ruta_imagen, ArrayList<Integer> id_tags, String anio, String var, String tipo){
+		String statement = "INSERT INTO peliculas (nombre, anyo, director, archivo, imagen, "+ tipo +") VALUES (?,?,?,?,?,?);";
 		
 		
 //		statement = statement.replace("z",nom);
@@ -85,13 +85,16 @@ public class Sesion {
 
 		try{
 			PreparedStatement state = con.prepareStatement(statement);
+//			state.setString(1, tipo);
 			state.setString(1, nom);
 			state.setString(2, anio);
 			state.setString(3, dir);
 			state.setString(4, ruta_archivo);
 			state.setString(5, ruta_imagen);
+			state.setString(6, var);
+			
 
-			System.out.println(state);
+			System.out.println(state.toString());
 			state.executeUpdate();													// Introduzco un nuevo elemento en la tabla de peliculas
 			state.close();
 
@@ -130,9 +133,9 @@ public class Sesion {
 	 * @param d Es elmento que quiers buscar
 	 * @return Devuelve un Array list con las peliculas que ha encontrado
 	 */
-	public ArrayList<Pelicula> buscar2 (String d) { 					
+	public ArrayList<Visual> buscar2 (String d) { 					
 		String qwer = "SELECT *  from peliculas where nombre LIKE ?;";
-		ArrayList<Pelicula> resul = new ArrayList<>();
+		ArrayList<Visual> resul = new ArrayList<>();
 		ArrayList<Tag> listaTags = new ArrayList<Tag>();
 		System.out.println(qwer);
 		try {
@@ -140,20 +143,25 @@ public class Sesion {
 			PreparedStatement sta = con.prepareStatement(qwer); //TODO arreglar nullpoiter
 			sta.setString(1, d);								//ns como lo has hecho en el de arriba, pero creo que pasa lo mismo aqui
 			ResultSet set = sta.executeQuery();
+			
 			while(set.next()) {
-				
-//				System.out.println(set.getInt("id_peli") + "     " + set.getString("nombre") + "     " + set.getString("anyo") + "     " + set.getString("director") + "     " + set.getString("archivo") + "     " + set.getString("imagen"));
 				String qwer2 = "SELECT * from tags where id_tag in (SELECT id_tags from tags_peliculas where id_pelis = ?);";
 				PreparedStatement sta2 = con.prepareStatement(qwer2);
 				sta2.setInt(1, set.getInt("id_peli"));
 				ResultSet set2 = sta2.executeQuery();
+				
 				while(set2.next()) {
 					Tag unTag = new Tag(set2.getString("nombre_tag"), set2.getInt("id_tag"));
 					listaTags.add(unTag);
 				}
+				if(set.getString("tema") == null) {
+					Pelicula peli_datos = new Pelicula(set.getInt("id_peli"), set.getString("nombre"), set.getString("anyo"), set.getString("director"), set.getString("archivo"), set.getString("imagen"), listaTags, set.getString("idioma"));
+					resul.add(peli_datos);
+				}else if(set.getString("idioma") == null) {
+					Documental documental_datos = new Documental(set.getInt("id_peli"), set.getString("nombre"), set.getString("anyo"), set.getString("director"), set.getString("archivo"), set.getString("imagen"), listaTags, set.getString("tema"));
+					resul.add(documental_datos);
+				}
 				
-				Pelicula peli_datos = new Pelicula(set.getInt("id_peli"), set.getString("nombre"), set.getString("anyo"), set.getString("director"), set.getString("archivo"), set.getString("imagen"), listaTags);
-				resul.add(peli_datos);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

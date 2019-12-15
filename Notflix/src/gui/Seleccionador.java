@@ -17,12 +17,13 @@ import javax.swing.plaf.metal.DefaultMetalTheme;
 
 import database.Pelicula;
 import database.Sesion;
+import database.Visual;
 
 @SuppressWarnings("serial")
 public class Seleccionador extends JPanel {
 	
-	DefaultListModel<Pelicula> model = new DefaultListModel<>();
-    private JList<Pelicula> lBuscar;
+	DefaultListModel<Visual> model = new DefaultListModel<>();
+    private JList<Visual> lBuscar;
     
     private JTextField tBuscar;
     private JButton bBuscar;
@@ -36,7 +37,7 @@ public class Seleccionador extends JPanel {
     private BufferedImage bufImg;
     private ImageIcon imgIc;
     private JLabel imgLbl;
-    private Pelicula peliSel;
+    private Visual peliSel;
    
     
 
@@ -47,7 +48,7 @@ public class Seleccionador extends JPanel {
     	actualizar(sesion);
     	imgLbl = new JLabel();
     	add (imgLbl);
-        lBuscar = new JList<Pelicula>(model);
+        lBuscar = new JList<Visual>(model);
         
         lBuscar.addListSelectionListener(new ListSelectionListener() {
         
@@ -70,10 +71,7 @@ public class Seleccionador extends JPanel {
 					} catch (Exception e2) {
 						new Error("intentelo otra vez");
 					}					
-						
-						
-						
-					
+	
 					
 					System.out.println(peliSel.getImagen());
 					
@@ -140,7 +138,7 @@ public class Seleccionador extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String busqueda = tBuscar.getText();
-				ArrayList<Pelicula> peli_ini = sesion.buscar2("%"+ busqueda + "%");
+				ArrayList<Visual> peli_ini = sesion.buscar2("%"+ busqueda + "%");
 				
 				model.removeAllElements();
 				
@@ -154,7 +152,7 @@ public class Seleccionador extends JPanel {
         bEditar.addActionListener(new ActionListener () {
         	
         	public void actionPerformed(ActionEvent e) {
-//        		actualizar(sesion);
+        		new Editor(sesion, Selecionador);
         	}
         	
         });
@@ -166,13 +164,17 @@ public class Seleccionador extends JPanel {
     
     public void actualizar(Sesion sesion) {
     	model.removeAllElements();
-    	ArrayList<Pelicula> peli_ini = sesion.buscar2("%");
+    	ArrayList<Visual> peli_ini = sesion.buscar2("%");
      	sesion.buscar2("%");
          
          for(int i = 0; i < peli_ini.size(); i++) {
          	model.addElement(peli_ini.get(i));
          }
     }
+    
+    public Visual getPeliSel() {
+		return peliSel;
+	}
 
 
     public static void main (String[] args) {

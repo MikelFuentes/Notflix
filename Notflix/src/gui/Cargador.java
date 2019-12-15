@@ -61,7 +61,6 @@ public class Cargador extends JPanel {
     	frame.setDefaultCloseOperation (JFrame.DISPOSE_ON_CLOSE);
     	
     	tags = sesion.buscartaClaTa("%");
-        //String[] jcomp7Items = {"Item 1", "Item 2", "Item 3"};
     	
     	tAtags = new JList<Tag>(modelTag);
     	tAtags.addListSelectionListener(new ListSelectionListener() {
@@ -98,7 +97,7 @@ public class Cargador extends JPanel {
         aTimagen = new JTextArea (5, 5);
         aTarchi = new JTextArea (5, 5);
         bAñadirTag = new JButton ("Añadir tags");
-        ltags2 = new JLabel ("Tags");
+        ltags2 = new JLabel ("Tags++++");
         bEliminarTags = new JButton ("Eliminar Tag");
         
         SpList = new JScrollPane(tAtags);
@@ -170,8 +169,8 @@ public class Cargador extends JPanel {
 				String anyo = tAño.getText();
 				String ruta_archivo = aTarchi.getText();
 				String ruta_imagen = aTimagen.getText();
-//				String tema = (String) cBTags.getSelectedItem();
-//				String idoma = (String) cbIdioma.getSelectedItem();
+				String tema = (String) cBTags.getSelectedItem().toString();
+				String idioma = (String) cbIdioma.getSelectedItem().toString();
 				ArrayList <Integer> tags = new ArrayList<Integer>();
 				for (int i = 0; i < modelTag.getSize(); i++) {
 					tags.add(modelTag.getElementAt(i).getId_tag());
@@ -192,16 +191,18 @@ public class Cargador extends JPanel {
 					new Error("Por favor, rellene todos los campos");
 					return;
 				}
-//				if (tema == null && idioma == null) {
-//					new Error("por favor selecciones tema o Idioma");
-//					return;
-//					
-//				}
-				//ArrayList<integer> =  //TODO SACAR LAS id de los tags añadidos
-				if (rbDoc.isSelected()) {
+				if (tema == null && idioma == null) {
+					new Error("por favor selecciones tema o Idioma");
+					return;
 					
 				}
-				sesion.meter_peli(nom, dir, ruta_archivo, ruta_imagen, tags, anyo);
+				//ArrayList<integer> =  //TODO SACAR LAS id de los tags añadidos
+				if (rbDoc.isSelected()) {
+					sesion.meter_peli(nom, dir, ruta_archivo, ruta_imagen, tags, anyo, tema, "tema");
+				}else if (rbPeli.isSelected()) {
+					sesion.meter_peli(nom, dir, ruta_archivo, ruta_imagen, tags, anyo, idioma, "idioma");
+				}
+				
 				sel.actualizar(sesion);
 				cerrar();
 			}

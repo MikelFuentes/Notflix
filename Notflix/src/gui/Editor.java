@@ -10,8 +10,10 @@ import javax.swing.event.*;
 import database.Pelicula;
 import database.Sesion;
 import database.Tag;
+import database.Visual;
 
 public class Editor extends JPanel {
+	
     private JButton bAceptar;
     private JButton bCancelar;
     private JTextField tNombre;
@@ -31,34 +33,53 @@ public class Editor extends JPanel {
     private JButton bEliminarTags;
     private JList<Tag> tAtags;
     
-    private Pelicula pelicula;
+    private Visual visual;
     private JFrame frame;
     private ArrayList<Tag> tags;
     private Tag selTag;
-    DefaultListModel<Tag> modelTag = new DefaultListModel<>();
+    DefaultListModel<Tag> modelTag2 = new DefaultListModel<>();
     private JScrollPane SpList;
     
     
 
-    public Editor(Sesion sesion, Seleccionador sel) {
+    public Editor(Sesion sesion, Seleccionador sel, Visual pelSel) {
         //construct preComponents
 //    	pelicula = sel.getPeliSel();
     	
     	frame = new JFrame ("Cragador");
     	frame.setDefaultCloseOperation (JFrame.DISPOSE_ON_CLOSE);
     	
-    	tags = sesion.buscartaClaTa("%");
-    	for (int i = 0; i < tags.size(); i++) {
-			Tag tagAcomparar = tags.get(i);
-			for (int j = 0; j < pelicula.getTags().size(); j++) {
-				if(tagAcomparar == pelicula.getTags().get(j)) {
-					tags.remove(i);
-				}
-			}
-			
-		}
+    	this.visual = pelSel;
+    	tags = sesion.cogerTagsNoSeleccionados(pelSel.getId()); //saco todos los tags que tengo en la base de datos
     	
-    	tAtags = new JList<Tag>(modelTag);
+//    	for (int i = 0; i < tags.size(); i++) {
+//			Tag tagAcomparar = tags.get(i);			//meto uno a uno en 
+//			System.out.println(visual.getTags().size());
+//			
+//			for (int j = 0; j < visual.getTags().size(); j++) {
+//				
+//				System.out.println("Comparo > " + tagAcomparar + " con > " + visual.getTags().get(j));
+//				System.out.println(tagAcomparar.getNombre_tag().equals(visual.getTags().get(j).getNombre_tag()));
+//				
+//				if(tagAcomparar.getNombre_tag().equals(visual.getTags().get(j).getNombre_tag())) {
+//					
+//					System.out.println("entor y elimino >" + tags.get(i) + "< porque = " + visual.getTags().get(j).getNombre_tag());
+//					tags.remove(i);
+//					j = visual.getTags().size() - 1;
+//					
+//					
+//				}
+//			}
+//			
+//		}
+    	
+    	for (int i = 0; i < visual.getTags().size(); i++) {
+    		System.out.println(visual.getTags().get(i));
+			modelTag2.addElement(visual.getTags().get(i));
+    	}
+    	
+    	
+    	tAtags = new JList<Tag>(modelTag2);
     	tAtags.addListSelectionListener(new ListSelectionListener() {
     		
     		@Override
@@ -90,7 +111,7 @@ public class Editor extends JPanel {
         aTimagen = new JTextArea (5, 5);
         aTarchi = new JTextArea (5, 5);
         bAñadirTag = new JButton ("Añadir Tag");
-        ltags2 = new JLabel ("Tags-----");
+        ltags2 = new JLabel ("Tags");
         bEliminarTags = new JButton ("Eliminar Tag");
         
         SpList = new JScrollPane(tAtags);

@@ -97,7 +97,7 @@ public class Cargador extends JPanel {
         aTimagen = new JTextArea (5, 5);
         aTarchi = new JTextArea (5, 5);
         bAñadirTag = new JButton ("Añadir tags");
-        ltags2 = new JLabel ("Tags++++");
+        ltags2 = new JLabel ("Tags");
         bEliminarTags = new JButton ("Eliminar Tag");
         
         SpList = new JScrollPane(tAtags);

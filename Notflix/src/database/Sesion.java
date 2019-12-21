@@ -284,7 +284,31 @@ public class Sesion {
 		return resul;
 	}
 	
-	
+	public ArrayList cogerTagsNoSeleccionados (int z)  {
+		ResultSet set = null;
+		String qwer = "SELECT * from tags where id_tag not in (SELECT id_tags from tags_peliculas where id_pelis = ?);";
+		try {
+			PreparedStatement state = con.prepareStatement(qwer);
+			state.setInt(1, z);
+			set = state.executeQuery();
+		} catch (Exception e) {
+			
+		}
+		ArrayList<Tag> resul = new ArrayList<>();
+		try {
+			while(set.next()) {
+				String nomTag = set.getString("nombre_tag");
+				int idTag = set.getInt("id_tag");
+				Tag tagTemp = new Tag(nomTag, idTag);
+				resul.add(tagTemp);
+			}
+		} catch (Exception e) {
+			
+		}
+		
+		return resul;
+		
+	}
 	
 	
 	

@@ -152,7 +152,7 @@ public class Seleccionador extends JPanel {
         bEditar.addActionListener(new ActionListener () {
         	
         	public void actionPerformed(ActionEvent e) {
-        		new Editor(sesion, Selecionador);
+        		new Editor(sesion, Selecionador, peliSel);
         	}
         	
         });

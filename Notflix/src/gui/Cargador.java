@@ -180,21 +180,27 @@ public class Cargador extends JPanel {
 				
 				System.out.println(nom); 
 				if (ruta_archivo.equals("")	) {
-					new Error("Por favor, selecciona ruta del archivo");
+					new Error("<html>Por favor, selecciona ruta del archivo</html>");
 					return;
 				}
 				if (ruta_imagen.equals("")) {
-					new Error("Por favor, seleccione ruta de la imagen");
+					new Error("<html>Por favor, seleccione ruta de la imagen</html>");
 					return;
 				}
 				if (nom.equals("") || dir.equals("") || anyo.equals("")) {
-					new Error("Por favor, rellene todos los campos");
+					new Error("<html>Por favor, rellene todos los campos</html>");
 					return;
 				}
-				if (tema == null && idioma == null) {
-					new Error("por favor selecciones tema o Idioma");
+				if (tema.equals(null) && idioma.equals(null)) {
+					new Error("<html>por favor selecciones tema o Idioma</html>");
 					return;
 					
+				}
+				try {
+					Integer.parseInt(anyo);
+				} catch (Exception e2) {
+					new Error("<html>Por favor selecciones introduzca números para el año en el que se filmó la película</html>");
+					return;
 				}
 				//ArrayList<integer> =  //TODO SACAR LAS id de los tags añadidos
 				if (rbDoc.isSelected()) {

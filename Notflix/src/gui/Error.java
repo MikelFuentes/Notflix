@@ -28,7 +28,7 @@ public class Error extends JPanel {
         lError.setHorizontalAlignment(JLabel.CENTER);
 
 
-        lError.setBounds (115, 35, 100, 25);
+        lError.setBounds (5, 10, 300, 100);
         bAceptar.setBounds (115, 85, 100, 25);
         frame.setSize(340, 200);
         this.frame.setDefaultCloseOperation (JFrame.DISPOSE_ON_CLOSE);

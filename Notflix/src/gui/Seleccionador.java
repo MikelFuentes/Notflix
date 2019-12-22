@@ -15,8 +15,10 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.plaf.metal.DefaultMetalTheme;
 
+import database.Documental;
 import database.Pelicula;
 import database.Sesion;
+import database.Tag;
 import database.Visual;
 
 @SuppressWarnings("serial")
@@ -71,7 +73,7 @@ public class Seleccionador extends JPanel {
 					} catch (Exception e2) {
 						new Error("intentelo otra vez");
 					}					
-	
+					RellenarDatos();
 					
 					System.out.println(peliSel.getImagen());
 					
@@ -90,7 +92,7 @@ public class Seleccionador extends JPanel {
         areaTags = new JTextArea (5, 5);
         bEditar = new JButton ("Editar");
         bAnadir = new JButton ("Añadir");
-
+        
         
         areaTags.setEnabled (false);
         SpList = new JScrollPane(lBuscar);
@@ -165,7 +167,7 @@ public class Seleccionador extends JPanel {
     public void actualizar(Sesion sesion) {
     	model.removeAllElements();
     	ArrayList<Visual> peli_ini = sesion.buscar2("%");
-     	sesion.buscar2("%");
+//     	sesion.buscar2("%");
          
          for(int i = 0; i < peli_ini.size(); i++) {
          	model.addElement(peli_ini.get(i));
@@ -175,6 +177,20 @@ public class Seleccionador extends JPanel {
     public Visual getPeliSel() {
 		return peliSel;
 	}
+    
+    public void RellenarDatos(){
+    	String director = peliSel.getDirector();
+    	ArrayList<Tag> tags = peliSel.getTags();
+    	String camb = "prue";
+    	if (peliSel instanceof Documental) {
+			camb = "Tema: " + ((Documental) peliSel).getTema();
+			
+		}else if (peliSel instanceof Pelicula) {
+			camb = "Idioma: " + ((Pelicula)peliSel).getIdioma();
+		}
+    	String texto = ("<html>Director: "+ director+ "<br>Tags: "+ tags + "<br>" + camb + "</html>");
+    	lTags.setText(texto);
+    }
 
 
     public static void main (String[] args) {

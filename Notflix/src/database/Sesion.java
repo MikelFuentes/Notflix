@@ -157,7 +157,7 @@ System.out.println(i);
 	public ArrayList<Visual> buscar2 (String d) { 					
 		String qwer = "SELECT *  from peliculas where nombre LIKE ?;";
 		ArrayList<Visual> resul = new ArrayList<>();
-		ArrayList<Tag> listaTags = new ArrayList<Tag>();
+		
 		System.out.println(qwer);
 		try {
 			System.out.println(con);
@@ -172,19 +172,30 @@ System.out.println(i);
 				PreparedStatement sta2 = con.prepareStatement(qwer2);
 				sta2.setInt(1, set.getInt("id_peli"));
 				ResultSet set2 = sta2.executeQuery();
-				listaTags.clear();
+				ArrayList<Tag> listaTags = new ArrayList<Tag>();
 //				System.out.println("NUE");
 				while(set2.next()) {
+					
 					Tag unTag = new Tag(set2.getString("nombre_tag"), set2.getInt("id_tag"));
 //					System.out.println(set2.getString("nombre_tag") + set2.getInt("id_tag"));
 					listaTags.add(unTag);
+//					System.out.println(listaTags);
 				}
+				//TODO CLASES IDIOMA
 				
 				if(set.getString("tema") == null) {
+//					System.out.println(listaTags + "*");
+					
 					Pelicula peli_datos = new Pelicula(set.getInt("id_peli"), set.getString("nombre"), set.getString("anyo"), set.getString("director"), set.getString("archivo"), set.getString("imagen"), listaTags, set.getString("idioma"));
+					//System.out.println(peli_datos.getTags());
 					resul.add(peli_datos);
+					System.out.println("le meto:" + listaTags + " y me guarda dentro:"+ resul.get(0).getTags() + resul.get(0).getNombre() + "\n");
+					
 				}else if(set.getString("idioma") == null) {
+//					System.out.println(listaTags + "*");
+					
 					Documental documental_datos = new Documental(set.getInt("id_peli"), set.getString("nombre"), set.getString("anyo"), set.getString("director"), set.getString("archivo"), set.getString("imagen"), listaTags, set.getString("tema"));
+					
 					resul.add(documental_datos);
 				}
 				
@@ -193,6 +204,9 @@ System.out.println(i);
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println("resul0 fue fue:" + resul.get(0).getTags() + resul.get(0).getNombre() );
+//		System.out.println(resul.get(1).getTags());
+//		//System.out.println(resul.get(2).getTags());
 		return resul;
 	}
 	/**

@@ -44,6 +44,7 @@ public class Visual {
 	}
 
 	public ArrayList<Tag> getTags() {
+		System.out.println("mis tags son" + tags+ "mi nombre es" + this.nombre);
 		return tags;
 	}
 

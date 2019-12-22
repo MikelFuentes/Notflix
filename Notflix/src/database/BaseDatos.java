@@ -100,11 +100,11 @@ public class BaseDatos {
             		
             
             System.out.println("paso2");
-            res = statement.executeUpdate("INSERT INTO peliculas (nombre, anyo, director, archivo, imagen)"
-            		+ "VALUES('titanic', '1999', 'Mikel', './peliculas/titanic.mp4', 'http://foto.com/titanic');");
+            res = statement.executeUpdate("INSERT INTO peliculas (nombre, anyo, director, archivo, imagen, idioma)"
+            		+ "VALUES('titanic', '1999', 'Mikel', './peliculas/titanic.mp4', 'http://foto.com/titanic', 1);");
             System.out.println("1");
-            res = statement.executeUpdate("INSERT INTO peliculas (nombre, anyo, director, archivo, imagen)"
-            		+ "VALUES('el padrino', '1988', 'Pepe', './peliculas/padrino.mp4', 'http://foto.com/padrino');");
+            res = statement.executeUpdate("INSERT INTO peliculas (nombre, anyo, director, archivo, imagen, idioma)"
+            		+ "VALUES('el padrino', '1988', 'Pepe', './peliculas/padrino.mp4', 'http://foto.com/padrino', 1);");
             System.out.println("2");
 //            res = statement.executeUpdate("insert into peliculas () values ('')");
 //            System.out.println(res);

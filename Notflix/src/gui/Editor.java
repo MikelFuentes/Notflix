@@ -37,6 +37,7 @@ public class Editor extends JPanel {
     private JFrame frame;
     private ArrayList<Tag> tags;
     private Tag selTag;
+    
     DefaultListModel<Tag> modelTag2 = new DefaultListModel<>();
     private JScrollPane SpList;
     
@@ -50,6 +51,7 @@ public class Editor extends JPanel {
     	frame.setDefaultCloseOperation (JFrame.DISPOSE_ON_CLOSE);
     	
     	this.visual = pelSel;
+
     	tags = sesion.cogerTagsNoSeleccionados(pelSel.getId()); //saco todos los tags que tengo en la base de datos
     	
 //    	for (int i = 0; i < tags.size(); i++) {
@@ -72,7 +74,7 @@ public class Editor extends JPanel {
 //			}
 //			
 //		}
-    	
+//TODO EL ERROR ESTA AQUI VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV    	
     	for (int i = 0; i < visual.getTags().size(); i++) {
     		System.out.println(visual.getTags().get(i));
 			modelTag2.addElement(visual.getTags().get(i));

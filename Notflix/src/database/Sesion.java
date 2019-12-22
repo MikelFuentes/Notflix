@@ -106,19 +106,40 @@ public class Sesion {
 			int  id_peli = id_pelicula.getInt("id_peli");
 			state2.close();
 //			System.out.println(id_peli);
-
+			//////////////////////////////////////////////////
+//			String prue = "Select * from tags_peliculas";
+//			PreparedStatement stateprue = con.prepareStatement(prue);
+//			ResultSet resulPrue = stateprue.executeQuery();
+//			while (resulPrue.next()) {
+//				String nomTag = resulPrue.getString("id_pelis");
+//				String iddtag = resulPrue.getString("id_tags");
+//				System.out.println(nomTag + "-->" + iddtag);
+//				
+//			}
 
 			for (int i = 0; i<id_tags.size(); i++) {  																	// Recorro el Arraylist de tags que he pasado y los meto en la
 				String statement_tags = "insert into tags_peliculas(id_pelis, id_tags) values (?,?)";					// tabla intermedia tags_peliculas junto a la id de la pelicul
 				PreparedStatement state3 = con.prepareStatement(statement_tags);										// que acabo de meter
 				state3.setInt(1, id_peli);
 				state3.setInt(2, id_tags.get(i));
-
+System.out.println(i);
 //				statement_tags = statement_tags.replace("id_pog", id_peli);
 //				String statement_tag = statement_tags.replace("id_tog", id_tags.get(i).toString());
 				state3.executeUpdate();
+				
+				
+				
 			}
-
+			
+//			resulPrue = stateprue.executeQuery();
+//			System.out.println(resulPrue);
+//			while (resulPrue.next()) {
+//				String nomTag = resulPrue.getString("id_pelis");
+//				String iddtag = resulPrue.getString("id_tags");
+//				System.out.println(nomTag + "-->" + iddtag);
+//				
+//			}
+//			System.out.println();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -144,16 +165,21 @@ public class Sesion {
 			sta.setString(1, d);								//ns como lo has hecho en el de arriba, pero creo que pasa lo mismo aqui
 			ResultSet set = sta.executeQuery();
 			
+			
+			
 			while(set.next()) {
 				String qwer2 = "SELECT * from tags where id_tag in (SELECT id_tags from tags_peliculas where id_pelis = ?);";
 				PreparedStatement sta2 = con.prepareStatement(qwer2);
 				sta2.setInt(1, set.getInt("id_peli"));
 				ResultSet set2 = sta2.executeQuery();
-				
+				listaTags.clear();
+//				System.out.println("NUE");
 				while(set2.next()) {
 					Tag unTag = new Tag(set2.getString("nombre_tag"), set2.getInt("id_tag"));
+//					System.out.println(set2.getString("nombre_tag") + set2.getInt("id_tag"));
 					listaTags.add(unTag);
 				}
+				
 				if(set.getString("tema") == null) {
 					Pelicula peli_datos = new Pelicula(set.getInt("id_peli"), set.getString("nombre"), set.getString("anyo"), set.getString("director"), set.getString("archivo"), set.getString("imagen"), listaTags, set.getString("idioma"));
 					resul.add(peli_datos);
@@ -287,6 +313,7 @@ public class Sesion {
 	public ArrayList cogerTagsNoSeleccionados (int z)  {
 		ResultSet set = null;
 		String qwer = "SELECT * from tags where id_tag not in (SELECT id_tags from tags_peliculas where id_pelis = ?);";
+		System.out.println(z);
 		try {
 			PreparedStatement state = con.prepareStatement(qwer);
 			state.setInt(1, z);
@@ -297,6 +324,7 @@ public class Sesion {
 		ArrayList<Tag> resul = new ArrayList<>();
 		try {
 			while(set.next()) {
+				
 				String nomTag = set.getString("nombre_tag");
 				int idTag = set.getInt("id_tag");
 				Tag tagTemp = new Tag(nomTag, idTag);

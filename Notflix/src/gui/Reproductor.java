@@ -18,7 +18,7 @@ import java.awt.event.*;
 public class Reproductor extends JFrame {
     private static final long serialVersionUID = 1L;
 
-    private static String ruta_a_vlc="";
+    private static String ruta_a_vlc="usr/bin/vlc";//TODO
     private static Reproductor miVentana;
     private EmbeddedMediaPlayerComponent mediaPlayerComponent;
     private JProgressBar pbReproduccion;
@@ -73,18 +73,14 @@ public class Reproductor extends JFrame {
     }
 
     public static void main(String[] args) {
-        boolean found = (new NativeDiscovery()).discover();
-        if (!found) System.setProperty("jna.library.path", ruta_a_vlc);
-        miVentana = new Reproductor();
-        miVentana.lanza(
-                "/home/sweos/Downloads/shrek-01.avi.mp4"
-        );
+        String ruta_vid = "/home/sweos/Downloads/shrek-01.avi.mp4";
+        Reproducir(ruta_vid);
     }
 
 
 
 
-    public void Reproductor(String ruta){
+    public static void Reproducir(String ruta){
         boolean found = (new NativeDiscovery()).discover();
         if (!found) System.setProperty("jna.library.path", ruta_a_vlc);
         miVentana = new Reproductor();

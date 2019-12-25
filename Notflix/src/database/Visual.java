@@ -23,6 +23,10 @@ public class Visual {
 		
 	}
 
+	public String getAño() {
+		return año;
+	}
+
 	public int getId() {
 		return id;
 	}

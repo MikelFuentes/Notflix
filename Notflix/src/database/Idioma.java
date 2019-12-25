@@ -1,19 +1,19 @@
 package database;
 
 public class Idioma {
-	int idIdioma;
+	String idIdioma;
 	String nombreIdioma;
 
 	
 	
-	public Idioma(int idIdioma, String idioma) {
+	public Idioma(String idIdioma, String idioma) {
 		this.idIdioma = idIdioma;
 		this.nombreIdioma = idioma;		
 	}
 
 
 
-	public int getIdIdioma() {
+	public String getIdIdioma() {
 		return idIdioma;
 	}
 

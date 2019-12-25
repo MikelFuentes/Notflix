@@ -42,6 +42,7 @@ public class Cargador extends JPanel {
     private JButton bAñadirTag;
     private JFrame frame;
     private ArrayList<Tag> tags;
+    
     private ArrayList<Tema> temas;
     private ArrayList<Idioma> idiomas;
     private JLabel ltags2;
@@ -49,11 +50,12 @@ public class Cargador extends JPanel {
     private JList<Tag> tAtags;
     private Tag selTag;
     private JScrollPane SpList;
+    
     private JRadioButton rbDoc;
     private JRadioButton rbPeli;
     private ButtonGroup grupo;
-    private JComboBox<String> cbTema;
-    private JComboBox<String> cbIdioma;
+    private JComboBox<Tema> cbTema;
+    private JComboBox<Idioma> cbIdioma;
 
     public Cargador(Sesion sesion, Seleccionador sel) {
         
@@ -168,9 +170,8 @@ public class Cargador extends JPanel {
 				String dir = tDirector.getText();
 				String anyo = tAño.getText();
 				String ruta_archivo = aTarchi.getText();
-				String ruta_imagen = aTimagen.getText();
-				String tema = (String) cBTags.getSelectedItem().toString();
-				String idioma = (String) cbIdioma.getSelectedItem().toString();
+				String ruta_imagen = aTimagen.getText();				
+				
 				ArrayList <Integer> tags = new ArrayList<Integer>();
 				for (int i = 0; i < modelTag.getSize(); i++) {
 					tags.add(modelTag.getElementAt(i).getId_tag());
@@ -191,11 +192,7 @@ public class Cargador extends JPanel {
 					new Error("<html>Por favor, rellene todos los campos</html>");
 					return;
 				}
-				if (tema.equals(null) && idioma.equals(null)) {
-					new Error("<html>por favor selecciones tema o Idioma</html>");
-					return;
-					
-				}
+				
 				try {
 					Integer.parseInt(anyo);
 				} catch (Exception e2) {
@@ -204,9 +201,16 @@ public class Cargador extends JPanel {
 				}
 				//ArrayList<integer> =  //TODO SACAR LAS id de los tags añadidos
 				if (rbDoc.isSelected()) {
+					Tema temaC = (Tema) cbTema.getSelectedItem();
+					String tema = temaC.getIdTema();
 					sesion.meter_peli(nom, dir, ruta_archivo, ruta_imagen, tags, anyo, tema, "tema");
 				}else if (rbPeli.isSelected()) {
+					Idioma idiomaC = (Idioma) cbIdioma.getSelectedItem();
+					String idioma = idiomaC.getIdIdioma();
 					sesion.meter_peli(nom, dir, ruta_archivo, ruta_imagen, tags, anyo, idioma, "idioma");
+				}else{
+					new Error("<html> Por favor selecciones si es pelicula o Documental </html>");
+					return;
 				}
 				
 				sel.actualizar(sesion);

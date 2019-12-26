@@ -71,7 +71,7 @@ public class Sesion {
 	 * @param id_tags Array con las id de la pelicula
 	 * @param anio Año en el que salió la pelicula
 	 */
-	public void meter_peli (String nom, String dir, String ruta_archivo, String ruta_imagen, ArrayList<Integer> id_tags, String anio, String var, String tipo){
+	public void meter_peli (String nom, String dir, String ruta_archivo, String ruta_imagen, ArrayList<Integer> id_tags, String anio, int var, String tipo){
 		String statement = "INSERT INTO peliculas (nombre, anyo, director, archivo, imagen, "+ tipo +") VALUES (?,?,?,?,?,?);";
 		
 		
@@ -91,7 +91,7 @@ public class Sesion {
 			state.setString(3, dir);
 			state.setString(4, ruta_archivo);
 			state.setString(5, ruta_imagen);
-			state.setString(6, var);
+			state.setInt(6, var);
 			
 
 			System.out.println(state.toString());
@@ -168,6 +168,8 @@ public class Sesion {
 			
 			
 			while(set.next()) {
+				
+				
 				String qwer2 = "SELECT * from tags where id_tag in (SELECT id_tags from tags_peliculas where id_pelis = ?);";
 				
 				PreparedStatement sta2 = con.prepareStatement(qwer2);
@@ -183,31 +185,36 @@ public class Sesion {
 //					System.out.println(set2.getString("nombre_tag") + set2.getInt("id_tag"));
 					listaTags.add(unTag);
 //					System.out.println(listaTags);
+					
 				}
 				
 						
 				
 				
-				if(set.getString("tema") == null) {
+				if(set.getInt("tema") == 0) {
+					
+					System.out.println(set.getInt("idioma"));
+					
 					
 					String qwer3 = "SELECT * from idioma where id_idioma =" + set.getInt("idioma")+ ";" ;
 					PreparedStatement sta3 = con.prepareStatement(qwer3);
 					ResultSet set3 = sta3.executeQuery();
-					Idioma idioma = new Idioma(set3.getString("id_idioma"), set3.getString("nombre_idioma"));
+					System.out.println(set3.getInt("id_idioma") + set3.getString("nombre_idioma"));
+					Idioma idioma = new Idioma(set3.getInt("id_idioma"), set3.getString("nombre_idioma"));
 					
 					Pelicula peli_datos = new Pelicula(set.getInt("id_peli"), set.getString("nombre"), set.getString("anyo"), set.getString("director"), set.getString("archivo"), set.getString("imagen"), listaTags, idioma);
 					
 					resul.add(peli_datos);
 					
-					System.out.println("le meto:" + listaTags + " y me guarda dentro:"+ resul.get(0).getTags() + resul.get(0).getNombre() + "\n");
+					//System.out.println("le meto:" + listaTags + " y me guarda dentro:"+ resul.get(0).getTags() + resul.get(0).getNombre() + "\n");
 					
-				}else if(set.getString("idioma") == null) {
+				}else if(set.getInt("idioma") == 0) {
 
 					
 					String qwer3 = "SELECT * from tema where id_tema =" + set.getInt("tema")+ ";" ;
 					PreparedStatement sta3 = con.prepareStatement(qwer3);
 					ResultSet set3 = sta3.executeQuery();
-					Tema tema = new Tema(set3.getString("id_idioma"), set3.getString("nombre_idioma"));					
+					Tema tema = new Tema(set3.getInt("id_tema"), set3.getString("nombre_tema"));					
 					
 					Documental documental_datos = new Documental(set.getInt("id_peli"), set.getString("nombre"), set.getString("anyo"), set.getString("director"), set.getString("archivo"), set.getString("imagen"), listaTags, tema);
 					
@@ -294,9 +301,9 @@ public class Sesion {
 		ArrayList<Idioma> resul = new ArrayList<>();
 		try {
 			while (set.next()){
-				String nomTag = set.getString("nombre_idioma");
-				String idTag = set.getString("id_idioma");
-				Idioma unRes = new Idioma(idTag, nomTag);
+				String nomIdioma = set.getString("nombre_idioma");
+				int idIdioma = set.getInt("id_idioma");
+				Idioma unRes = new Idioma(idIdioma, nomIdioma);
 				resul.add(unRes);
 			}
 		//ss
@@ -320,13 +327,13 @@ public class Sesion {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}	
-		ArrayList<Idioma> resul = new ArrayList<>();
+		ArrayList<Tema> resul = new ArrayList<>();
 		try {
 			while (set.next()){
-				String nomTag = set.getString("nombre_tema");
-				System.out.println(nomTag);
-				String idTag = set.getString("id_tema");
-				Idioma unRes = new Idioma(idTag, nomTag);
+				String nomTema = set.getString("nombre_tema");
+				System.out.println(nomTema);
+				int idTema = set.getInt("id_tema");
+				Tema unRes = new Tema(idTema, nomTema);
 				resul.add(unRes);
 			}
 		//ss
@@ -367,8 +374,8 @@ public class Sesion {
 		
 	}
 	
-	public void Editar_peli (String nom, String dir, String ruta_archivo, String ruta_imagen, ArrayList<Integer> id_tags, String anio, String var, String tipo, int id_peli){
-		String statement = "UPDATE peliculas SET nombre = ?, anyo = ? , director = ?, archivo = ?, imagen = ?, "+ tipo +" = ? where id_peli = " + id_peli + ";";
+	public void Editar_peli (String nom, String dir, String ruta_archivo, String ruta_imagen, ArrayList<Integer> id_tags, String anio, int var, String tipo, int id_peli, String tipoOpuesto){
+		String statement = "UPDATE peliculas SET nombre = ?, anyo = ? , director = ?, archivo = ?, imagen = ?, "+ tipo +" = ?,"+ tipoOpuesto +"= NULL where id_peli = " + id_peli +";"    ;
 
 		try{
 			PreparedStatement state = con.prepareStatement(statement);
@@ -377,7 +384,7 @@ public class Sesion {
 			state.setString(3, dir);
 			state.setString(4, ruta_archivo);
 			state.setString(5, ruta_imagen);
-			state.setString(6, var);
+			state.setInt(6, var);
 
 			System.out.println(state.toString());
 			state.executeUpdate();													// Introduzco un nuevo elemento en la tabla de peliculas

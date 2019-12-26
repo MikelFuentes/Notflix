@@ -52,8 +52,8 @@ public class Editor extends JPanel {
     private JRadioButton rbDoc;
     private JRadioButton rbPeli;
     private ButtonGroup grupo;
-    private JComboBox<String> cbTema;
-    private JComboBox<String> cbIdioma;
+    private JComboBox<Tema> cbTema;
+    private JComboBox<Idioma> cbIdioma;
     
     
 
@@ -151,8 +151,8 @@ public class Editor extends JPanel {
         grupo.add(rbDoc);
         grupo.add(rbPeli);
         
-        idiomas = sesion.buscartaClaTem("%");
-        cbTema = new JComboBox(idiomas.toArray());
+        temas = sesion.buscartaClaTem("%");
+        cbTema = new JComboBox(temas.toArray());
 		
         idiomas = sesion.buscartaClaIdioma("%");
 		cbIdioma = new JComboBox(idiomas.toArray());
@@ -292,8 +292,7 @@ public class Editor extends JPanel {
         		String anyo = tAño.getText();
         		String ruta_archivo = aTarchi.getText();
         		String ruta_imagen = aTimagen.getText();
-        		String tema = (String) cBTags.getSelectedItem().toString();
-        		String idioma = (String) cbIdioma.getSelectedItem().toString();
+        		
         		ArrayList <Integer> tags = new ArrayList<Integer>();
         		for (int i = 0; i < modelTag2.getSize(); i++) {
         			tags.add(modelTag2.getElementAt(i).getId_tag());
@@ -314,11 +313,7 @@ public class Editor extends JPanel {
         			new Error("<html>Por favor, rellene todos los campos</html>");
         			return;
         		}
-        		if (tema.equals(null) && idioma.equals(null)) {
-        			new Error("<html>por favor selecciones tema o Idioma</html>");
-        			return;
-
-        		}
+        		
         		try {
         			Integer.parseInt(anyo);
         		} catch (Exception e2) {
@@ -327,10 +322,19 @@ public class Editor extends JPanel {
         		}
         		//ArrayList<integer> =  //TODO SACAR LAS id de los tags añadidos
         		if (rbDoc.isSelected()) {
-        			sesion.Editar_peli(nom, dir, ruta_archivo, ruta_imagen, tags, anyo, tema, "tema", pelSel.getId());
+        			Tema temaC = (Tema) cbTema.getSelectedItem();
+					int tema = temaC.getIdTema();
+					// TODO PONER A NULL EL OTRO CAMPO
+        			sesion.Editar_peli(nom, dir, ruta_archivo, ruta_imagen, tags, anyo, tema, "tema", pelSel.getId(), "idioma");
         		}else if (rbPeli.isSelected()) {
-        			sesion.Editar_peli(nom, dir, ruta_archivo, ruta_imagen, tags, anyo, idioma, "idioma", pelSel.getId());
-        		}
+        			Idioma idiomaC = (Idioma) cbIdioma.getSelectedItem();
+					int idioma = idiomaC.getIdIdioma();
+					// TODO PONER A NULL EL OTRO CAMPO
+        			sesion.Editar_peli(nom, dir, ruta_archivo, ruta_imagen, tags, anyo, idioma, "idioma", pelSel.getId(),"tema");
+        		}else{
+					new Error("<html> Por favor selecciones si es pelicula o Documental </html>");
+					return;
+				}
 
         		sel.actualizar(sesion);
         		cerrar();

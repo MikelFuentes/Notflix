@@ -1,19 +1,19 @@
 package database;
 
 public class Tema {
-	String idTema;
+	int idTema;
 	String nombreTema;
 
 	
 	
-	public Tema(String idTema, String Tema) {
+	public Tema(int idTema, String Tema) {
 		this.idTema = idTema;
 		this.nombreTema = Tema;		
 	}
 
 
 
-	public String getIdTema() {
+	public int getIdTema() {
 		return idTema;
 	}
 

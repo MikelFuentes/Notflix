@@ -202,11 +202,11 @@ public class Cargador extends JPanel {
 				//ArrayList<integer> =  //TODO SACAR LAS id de los tags añadidos
 				if (rbDoc.isSelected()) {
 					Tema temaC = (Tema) cbTema.getSelectedItem();
-					String tema = temaC.getIdTema();
+					int tema = temaC.getIdTema();
 					sesion.meter_peli(nom, dir, ruta_archivo, ruta_imagen, tags, anyo, tema, "tema");
 				}else if (rbPeli.isSelected()) {
 					Idioma idiomaC = (Idioma) cbIdioma.getSelectedItem();
-					String idioma = idiomaC.getIdIdioma();
+					int idioma = idiomaC.getIdIdioma();
 					sesion.meter_peli(nom, dir, ruta_archivo, ruta_imagen, tags, anyo, idioma, "idioma");
 				}else{
 					new Error("<html> Por favor selecciones si es pelicula o Documental </html>");

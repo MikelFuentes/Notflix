@@ -67,10 +67,6 @@ public class Reproductor extends JFrame {
         });
     }
 
-    private void lanza(String mrl) {
-        mediaPlayerComponent.mediaPlayer().audio().setVolume( 100 );
-        mediaPlayerComponent.mediaPlayer().media().play(mrl);
-    }
 
     public static void main(String[] args) {
         String ruta_vid = "/home/sweos/Downloads/shrek-01.avi.mp4";
@@ -84,7 +80,8 @@ public class Reproductor extends JFrame {
         boolean found = (new NativeDiscovery()).discover();
         if (!found) System.setProperty("jna.library.path", ruta_a_vlc);
         miVentana = new Reproductor();
-        miVentana.lanza(ruta);
+        miVentana.mediaPlayerComponent.mediaPlayer().audio().setVolume( 100 );
+        miVentana.mediaPlayerComponent.mediaPlayer().media().play(ruta);
 }
 
 }

@@ -4,13 +4,19 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
+import javax.management.InstanceAlreadyExistsException;
 import javax.swing.*;
 import javax.swing.event.*;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
+import database.Idioma;
 import database.Pelicula;
 import database.Sesion;
 import database.Tag;
+import database.Tema;
 import database.Visual;
+import gui.Error;
 
 public class Editor extends JPanel {
 	
@@ -40,6 +46,14 @@ public class Editor extends JPanel {
     
     DefaultListModel<Tag> modelTag2 = new DefaultListModel<>();
     private JScrollPane SpList;
+    
+    private ArrayList<Tema> temas;
+    private ArrayList<Idioma> idiomas;
+    private JRadioButton rbDoc;
+    private JRadioButton rbPeli;
+    private ButtonGroup grupo;
+    private JComboBox<Tema> cbTema;
+    private JComboBox<Idioma> cbIdioma;
     
     
 
@@ -119,14 +133,31 @@ public class Editor extends JPanel {
         SpList = new JScrollPane(tAtags);
         SpList.setViewportView(tAtags);
 
-        //adjust size and set layout
+
         frame.setPreferredSize (new Dimension (944, 574));
         frame.setLayout (null);
         frame.setSize(new Dimension (944, 574));
         frame.setResizable(false);
 
-
-        //add components
+        
+        aTarchi.setEditable(false);
+        aTimagen.setEditable(false);
+        
+        rbDoc = new JRadioButton("Documental");
+        rbPeli = new JRadioButton("Pelicula");
+        
+        
+        grupo = new ButtonGroup();
+        grupo.add(rbDoc);
+        grupo.add(rbPeli);
+        
+        temas = sesion.buscartaClaTem("%");
+        cbTema = new JComboBox(temas.toArray());
+		
+        idiomas = sesion.buscartaClaIdioma("%");
+		cbIdioma = new JComboBox(idiomas.toArray());
+        
+    
         frame.add (bAceptar);
         frame.add (bCancelar);
         frame.add (bImagen);
@@ -150,7 +181,179 @@ public class Editor extends JPanel {
         frame.add (tAtags);
         frame.add (bEliminarTags);
         frame.add (ltags2);
+        
+        frame.add(rbDoc);
+        frame.add(rbPeli);
+        frame.add(cbTema);
+        frame.add(cbIdioma);
        
+        tNombre.setText(pelSel.getNombre());
+        tDirector.setText(pelSel.getDirector());
+        tAño.setText(pelSel.getAño());
+        aTimagen.setText(pelSel.getImagen());
+        aTarchi.setText(pelSel.getArchi());
+        
+        
+        
+        
+        
+        
+        bAceptar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				
+			}
+		});
+        
+        bMedia.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser(".");  													//Create this to start an explorer
+                FileFilter filter = new FileNameExtensionFilter("Archivos multimedia (.mp4, .vlc)", "mp4","vlc"); 	//filter files to show only media files
+                fileChooser.setFileFilter(filter);
+                int valor = fileChooser.showOpenDialog(fileChooser); 												//open file explorer
+                if(valor == JFileChooser.APPROVE_OPTION){            												// if a file is chosen
+                    String path = fileChooser.getSelectedFile().getAbsolutePath();
+                    aTarchi.setText(path);
+                } else {
+                    new Error("No se ha seleccionado ningun archivo.");
+                }
+            }
+		});
+        
+        bImagen.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+//				new Error("Falta implementar anadir imagen");
+                JFileChooser fileChooser = new JFileChooser(".");  																	//Create this to start an explorer
+                FileFilter filter = new FileNameExtensionFilter("Archivos multimedia (.png, .jpg, .jpeg)", "png","jpeg","jpg"); 	//filter files to show only media files
+                fileChooser.setFileFilter(filter);
+                int valor = fileChooser.showOpenDialog(fileChooser); 																//open file explorer
+                if(valor == JFileChooser.APPROVE_OPTION){            																// if a file is chosen
+                    String path = fileChooser.getSelectedFile().getAbsolutePath();                
+                    aTimagen.setText(path);
+                } else { 
+                    new Error("No se ha seleccionado ningun archivo.");
+                }
+			}
+		});
+        
+        bCancelar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cerrar();
+				
+			}
+		});
+        
+        rbDoc.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//TODO
+						
+				cbTema.setBounds(600, 100, 235, 50 );
+				frame.getContentPane().revalidate();
+				cbTema.setVisible(true);
+				if (cbIdioma.isVisible()) {
+					cbIdioma.setVisible(false);
+				}
+			}
+		});
+        
+        rbPeli.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cbIdioma.setBounds(600, 100, 235, 50 );
+				frame.getContentPane().revalidate();
+				cbIdioma.setVisible(true);
+				if (cbTema.isVisible()){
+					cbTema.setVisible(false);
+				}
+				
+			}
+		});
+        
+        
+        
+        
+        bAceptar.addActionListener(new ActionListener() {
+        	@Override
+        	//Recopila los datos del creador y lo pasa a la base de datos
+        	public void actionPerformed(ActionEvent e) {
+        		//				new Error("Falta implementar aceptar");
+
+        		String nom = tNombre.getText();
+        		String dir = tDirector.getText();
+        		String anyo = tAño.getText();
+        		String ruta_archivo = aTarchi.getText();
+        		String ruta_imagen = aTimagen.getText();
+        		
+        		ArrayList <Integer> tags = new ArrayList<Integer>();
+        		for (int i = 0; i < modelTag2.getSize(); i++) {
+        			tags.add(modelTag2.getElementAt(i).getId_tag());
+        		}
+
+
+
+        		System.out.println(nom); 
+        		if (ruta_archivo.equals("")	) {
+        			new Error("<html>Por favor, selecciona ruta del archivo</html>");
+        			return;
+        		}
+        		if (ruta_imagen.equals("")) {
+        			new Error("<html>Por favor, seleccione ruta de la imagen</html>");
+        			return;
+        		}
+        		if (nom.equals("") || dir.equals("") || anyo.equals("")) {
+        			new Error("<html>Por favor, rellene todos los campos</html>");
+        			return;
+        		}
+        		
+        		try {
+        			Integer.parseInt(anyo);
+        		} catch (Exception e2) {
+        			new Error("<html>Por favor selecciones introduzca números para el año en el que se filmó la película</html>");
+        			return;
+        		}
+        		//ArrayList<integer> =  //TODO SACAR LAS id de los tags añadidos
+        		if (rbDoc.isSelected()) {
+        			Tema temaC = (Tema) cbTema.getSelectedItem();
+					int tema = temaC.getIdTema();
+					// TODO PONER A NULL EL OTRO CAMPO
+        			sesion.Editar_peli(nom, dir, ruta_archivo, ruta_imagen, tags, anyo, tema, "tema", pelSel.getId(), "idioma");
+        		}else if (rbPeli.isSelected()) {
+        			Idioma idiomaC = (Idioma) cbIdioma.getSelectedItem();
+					int idioma = idiomaC.getIdIdioma();
+					// TODO PONER A NULL EL OTRO CAMPO
+        			sesion.Editar_peli(nom, dir, ruta_archivo, ruta_imagen, tags, anyo, idioma, "idioma", pelSel.getId(),"tema");
+        		}else{
+					new Error("<html> Por favor selecciones si es pelicula o Documental </html>");
+					return;
+				}
+
+        		sel.actualizar(sesion);
+        		cerrar();
+        	}
+        });
+        
+        
+        
+        if (pelSel instanceof Pelicula) {
+        	rbPeli.setSelected(true);
+        	cbIdioma.setBounds(600, 100, 235, 50 );
+        	frame.getContentPane().revalidate();
+        	cbIdioma.setVisible(true);
+        	// TODO QUE COJA EL IDIOMA DE LA PELICULA
+        	if (cbTema.isVisible()){
+        		cbTema.setVisible(false);
+        	}
+		}
+  
 
         bAceptar.setBounds (60, 450, 150, 50);
         bCancelar.setBounds (260, 450, 150, 50);
@@ -170,10 +373,13 @@ public class Editor extends JPanel {
         ltags2.setBounds (440, 115, 100, 25);
         bEliminarTags.setBounds (440, 350, 105, 50);
         tAtags.setBounds (440, 140, 105, 210);
-//        rbPeli.setBounds(600, 25, 100, 15 );
-//        rbDoc.setBounds(800, 25, 100, 15 );
+        rbPeli.setBounds(600, 25, 100, 15 );
+        rbDoc.setBounds(800, 25, 100, 15 );
        
         frame.setVisible (true);
+    }
+    private void cerrar(){
+    	this.frame.dispose();
     }
 }
 

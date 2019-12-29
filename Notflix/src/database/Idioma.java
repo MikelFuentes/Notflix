@@ -6,8 +6,8 @@ public class Idioma {
 
 	
 	
-	public Idioma(int idIdioma, String idioma) {
-		this.idIdioma = idIdioma;
+	public Idioma(int i, String idioma) {
+		this.idIdioma = i;
 		this.nombreIdioma = idioma;		
 	}
 

@@ -155,7 +155,7 @@ public class Sesion {
 	 * @return Devuelve un Array list con las peliculas que ha encontrado
 	 */
 	public ArrayList<Visual> buscar2 (String d) { 					
-		String qwer = "SELECT *  from peliculas where nombre LIKE ?;";
+		String qwer = "SELECT * from peliculas where nombre LIKE ?;";
 		ArrayList<Visual> resul = new ArrayList<>();
 		
 		System.out.println(qwer);

@@ -65,7 +65,7 @@ public class Reproductor extends JFrame {
                 mediaPlayerComponent.mediaPlayer().release();
             }
         });
-        bFullscreen.addActionListener(new ActionListener() { //TODO no funciona, aun haciendo un if, hay que probar otras formas
+        bFullscreen.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mediaPlayerComponent.mediaPlayer().fullScreen().toggle();

@@ -23,7 +23,7 @@ import java.awt.event.*;
 public class Reproductor extends JFrame {
     private static final long serialVersionUID = 1L;
 
-    private static String ruta_a_vlc="usr/bin/vlc";//TODO
+    private static String ruta_a_vlc="C:/Program Files/VideoLAN/VLC";//TODO
     private static Reproductor miVentana;
     private EmbeddedMediaPlayerComponent mediaPlayerComponent;
     private JProgressBar pbReproduccion;
@@ -117,7 +117,7 @@ public class Reproductor extends JFrame {
     }
 
     public static void main(String[] args) {
-        Reproducir("/home/sweos/Downloads/shrek-01.avi.mp4");
+        Reproducir("C:/Users/Mikel/Downloads/Mandalorian 8.mp4");
     }
 
 

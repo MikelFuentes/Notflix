@@ -38,8 +38,15 @@ public class SesionTest {
     	tags.add(new Tag("accion", 2));
     	Idioma idioma = new Idioma(1, "Castellano");
     	Pelicula pelicula = new Pelicula(1, "titanic", "1999", "Mikel", "./peliculas/titanic.mp4", "http://foto.com/titanic", tags, idioma);
+    	Pelicula pelicula_act = (Pelicula) sesion.buscar2("%").get(0);
+    	assertEquals(pelicula.getNombre(), pelicula_act.getNombre());
+    	assertEquals(pelicula.getArchi(), pelicula_act.getArchi());
+    	assertEquals(pelicula.getAño(), pelicula_act.getAño());
+    	assertEquals(pelicula.getDirector(), pelicula_act.getDirector());
+    	assertEquals(pelicula.getIdioma().getIdIdioma(), pelicula_act.getIdioma().getIdIdioma());
+    	assertEquals(pelicula.getImagen(), pelicula_act.getImagen());
+    	assertEquals(pelicula.getTags().get(0).getNombre_tag(), pelicula_act.getTags().get(0).getNombre_tag());
     	
-    	assertEquals(pelicula.getNombre(), sesion.buscar2("%").get(0).getNombre());
     }
 
     @Test

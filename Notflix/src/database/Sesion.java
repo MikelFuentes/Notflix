@@ -410,5 +410,28 @@ public class Sesion {
 	}
 	
 	
+	public ArrayList sacarUsuarios() {
+		String statemen = "Select * from usuarios;";
+		ArrayList<Usuarios> resultado = new ArrayList<Usuarios>();
+		try {
+		
+			PreparedStatement state = con.prepareStatement(statemen);
+			
+			ResultSet set = state.executeQuery();
+			
+			while (set.next()) {
+				resultado.add( new Usuarios(set.getInt("id_usuario"), set.getString("nombre")));
+			}
+			
+			
+		
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return resultado;
+
+	}
+	
 	
 }

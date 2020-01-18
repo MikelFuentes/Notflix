@@ -109,14 +109,18 @@ public class BaseDatos {
 //            res = statement.executeUpdate("insert into peliculas () values ('')");
 //            System.out.println(res);
 
-//            statement.executeUpdate("create table usuarios(" +
+//            statement.executeUpdate("create table IF NOT EXISTS usuarios(" +
 //                    "id_usuario int NOT NULL AUTO_INCREMENT,\n" +
 //                    "nombre VARCHAR(100) NOT NULL,\n" +
-//                    "password VARCHAR(100) NOT NULL,\n" +
-//                    "rango int NOT NULL,\n" +
-//
+////                    "password VARCHAR(100) NOT NULL,\n" +
+////                    "rango int NOT NULL,\n" +
 //                    "PRIMARY KEY (id_usuario)" +
 //                    ");");
+            
+            
+            
+            
+            
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS tags_peliculas ("
             		+ "id_pelis INTEGER,"
             		+ "id_tags INTEGER,"
@@ -130,14 +134,28 @@ public class BaseDatos {
             		+ "VALUES(1,2);");
             res = statement.executeUpdate("INSERT INTO tags_peliculas(id_pelis, id_tags)"
             		+ "VALUES(2,4);");
-            //TODO Tengo dudas si hay que introducir la tabla intermedia.
             
+            
+            //TODO Tengo dudas si hay que introducir la tabla intermedia.
+            System.out.println("hola1");
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS usuarios ("
             		+"id_usuario INTEGER PRIMARY KEY AUTOINCREMENT,"
-            		+"nombre VARCHAR(100) NOT NULL,"
-            		+"password VARCHAR(100) NOT NULL,"
-            		+"rango int NOT NULL"
+            		+"nombre VARCHAR(100) NOT NULL"
             		+");");
+            System.out.println("hola2");
+            statement.executeUpdate("INSERT INTO usuarios (nombre) VALUES ('Pepe');");
+            System.out.println("hola3");
+            statement.executeUpdate("INSERT INTO usuarios (nombre) VALUES ('Jose');");
+            System.out.println("hola4");
+            statement.executeUpdate("INSERT INTO usuarios (nombre) VALUES ('Ana');");
+            
+            System.out.println("hola5");
+            
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS usuario_peli("
+            		+ "id_usuario INTEGER,"
+            		+ "id_pelis INTEGER,"
+            		+ "FOREIGN KEY (id_pelis) REFERENCES peliculas(id_peli),"
+            		+ "FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario));");
             
             
             

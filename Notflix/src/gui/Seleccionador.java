@@ -19,6 +19,7 @@ import database.Documental;
 import database.Pelicula;
 import database.Sesion;
 import database.Tag;
+import database.Usuarios;
 import database.Visual;
 
 @SuppressWarnings("serial")
@@ -40,6 +41,10 @@ public class Seleccionador extends JPanel {
     private ImageIcon imgIc;
     private JLabel imgLbl;
     private Visual peliSel;
+    private JComboBox<Usuarios> cUsuario;
+    private ArrayList<Usuarios> usuarios;
+    private JLabel lUsuarios;
+    private JButton bNuevoUsuario;
    
     
 
@@ -89,16 +94,21 @@ public class Seleccionador extends JPanel {
         bBuscar = new JButton ("Buscar");
         bVer = new JButton ("Ver");
         lTags = new JLabel ("newLabel");
+        lUsuarios = new JLabel("Usuario:");
         areaTags = new JTextArea (5, 5);
         bEditar = new JButton ("Editar");
         bAnadir = new JButton ("Añadir");
-        
-        
+        bNuevoUsuario = new JButton("Nuevo usuario");
+        		
         areaTags.setEnabled (false);
         SpList = new JScrollPane(lBuscar);
         
         
         SpList.setViewportView(lBuscar);
+        
+        usuarios = sesion.sacarUsuarios();
+        cUsuario = new JComboBox(usuarios.toArray());
+        
         
         setPreferredSize (new Dimension (756, 574));
         setLayout (null);
@@ -113,11 +123,13 @@ public class Seleccionador extends JPanel {
         add (bEditar);
         add (bAnadir);
         add (SpList);
-        
+        add (cUsuario);
+        add (lUsuarios);
+        add (bNuevoUsuario);
         
         //lBuscar.setBounds (80, 110, 250, 350);
         tBuscar.setBounds (80, 60, 250, 30);
-        bBuscar.setBounds (365, 60, 100, 30);
+        bBuscar.setBounds (345, 60, 100, 30);
         bVer.setBounds (85, 485, 150, 30);
         lTags.setBounds (405, 385, 255, 75);
         areaTags.setBounds (400, 385, 260, 75);
@@ -125,6 +137,9 @@ public class Seleccionador extends JPanel {
         bAnadir.setBounds (515, 485, 150, 30);
         SpList.setBounds(80, 110, 250, 350);
         imgLbl.setBounds(400, 110, 260, 260);
+        cUsuario.setBounds(460, 60, 120, 30);
+        lUsuarios.setBounds(460, 35, 150, 30);
+        bNuevoUsuario.setBounds(580, 60, 115, 30);
        
         
         bAnadir.addActionListener(new ActionListener() {
@@ -158,8 +173,19 @@ public class Seleccionador extends JPanel {
         	}
         	
         });
-        
+
+        bNuevoUsuario.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("W. I. P.");
+//				new CrearUsuario(sesion);
+				
+			}
+		});
     }
+    
+
     // TODO	HACER UN METODO PARA ESTO for(int i = 0; i < peli_ini.size(); i++) {
     //	model.addElement(peli_ini.get(i));
     //}

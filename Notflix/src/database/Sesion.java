@@ -432,6 +432,21 @@ public class Sesion {
 		return resultado;
 
 	}
-	
+	public void anadirUsuario(String nombre) {
+		String statement = "INSERT into usuarios (nombre) VALUES(?);";
+		
+		try {
+			PreparedStatement state = con.prepareStatement(statement);
+			state.setString(1, nombre);
+			state.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+
+	}
 	
 }

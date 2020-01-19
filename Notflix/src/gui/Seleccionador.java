@@ -178,8 +178,8 @@ public class Seleccionador extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("W. I. P.");
-//				new CrearUsuario(sesion);
+				
+				new CrearUsuario(sesion, Selecionador);
 				
 			}
 		});
@@ -217,6 +217,12 @@ public class Seleccionador extends JPanel {
     	String texto = ("<html>Director: "+ director+ "<br>Tags: "+ tags + "<br>" + camb + "</html>");
     	lTags.setText(texto);
     }
+    
+    public void actualizarUsuarios(Sesion ses) {
+		cUsuario.removeAllItems();
+		cUsuario.setModel(new DefaultComboBoxModel(ses.sacarUsuarios().toArray()));
+		
+	}
 
 
     public static void main (String[] args) {

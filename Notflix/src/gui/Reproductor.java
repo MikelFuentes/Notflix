@@ -3,6 +3,7 @@ package gui;
 
 import javax.swing.*;
 
+import database.Sesion;
 import uk.co.caprica.vlcj.factory.MediaPlayerFactory;
 import uk.co.caprica.vlcj.player.base.MediaPlayer;
 import uk.co.caprica.vlcj.player.base.MediaPlayerEventAdapter;
@@ -23,16 +24,16 @@ import java.awt.event.*;
 public class Reproductor extends JFrame {
     private static final long serialVersionUID = 1L;
 
-    private static String ruta_a_vlc="C:/Program Files/VideoLAN/VLC";//TODO
+    private static String ruta_a_vlc="/usr/bin/vlc";//TODO
     private static Reproductor miVentana;
     private EmbeddedMediaPlayerComponent mediaPlayerComponent;
     private JProgressBar pbReproduccion;
     private JProgressBar pbVolume;
     private int savedVolume;
-    public Reproductor() {
+    public Reproductor(Sesion sesion, int idUser, int idPeli) {
         setTitle("Player");
         setSize(800, 600);
-//        MediaPlayerFactory patata = new MediaPlayerFactory();
+//        MediaPlayerFactory patata = new Media:/Program Files/VideoLAN/VLCPlayerFactory();
 //        MediaPlayer mediaPlayer= patata.mediaPlayers().newEmbeddedMediaPlayer();
 //        ((EmbeddedMediaPlayer) mediaPlayer).fullScreen().strategy(new AdaptiveFullScreenStrategy(miVentana));
         mediaPlayerComponent = new EmbeddedMediaPlayerComponent();
@@ -55,16 +56,20 @@ public class Reproductor extends JFrame {
         pBotonera.add(bFullscreen);
         add(pBotonera, BorderLayout.SOUTH);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        mediaPlayerComponent.mediaPlayer().input().enableKeyInputHandling(true);
         setVisible(true);
 
 //        mediaPlayerComponent.mediaPlayer().fullScreen().;
         addWindowListener(new WindowAdapter() {
             @Override
-            public void windowClosing(WindowEvent e) {//TODO que coja el tiempo y lo meta en un mapa, cada vez que se abra el reproductor, coge el mapa y si el nombre de la peli esta en el mapa, pone el tiempo
+            public void windowClosing(WindowEvent e) {
+                long tiempo = mediaPlayerComponent.mediaPlayer().status().time(); //timestamp actual, es un long
                 mediaPlayerComponent.mediaPlayer().controls().stop();
+                sesion.modTiempo(tiempo,idPeli,idUser);
                 mediaPlayerComponent.mediaPlayer().release();
             }
         });
+
         bFullscreen.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -93,12 +98,45 @@ public class Reproductor extends JFrame {
                     mediaPlayerComponent.mediaPlayer().controls().play();
             }
         });
+        mediaPlayerComponent.addKeyListener(new KeyListener() { //TODO que esto funcione
+            @Override
+            public void keyTyped(KeyEvent keyEvent) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                int keyCode = e.getKeyCode();
+                switch( keyCode ) {
+                    case KeyEvent.VK_UP:
+                        mediaPlayerComponent.mediaPlayer().audio().setVolume(miVentana.mediaPlayerComponent.mediaPlayer().audio().volume()+5);
+                        pbVolume.setValue(miVentana.mediaPlayerComponent.mediaPlayer().audio().volume());
+                        break;
+                    case KeyEvent.VK_DOWN:
+                        mediaPlayerComponent.mediaPlayer().audio().setVolume(miVentana.mediaPlayerComponent.mediaPlayer().audio().volume()-5);
+                        pbVolume.setValue(miVentana.mediaPlayerComponent.mediaPlayer().audio().volume());
+                        break;
+                    case KeyEvent.VK_LEFT:
+                        mediaPlayerComponent.mediaPlayer().controls().skipTime(10);
+                        break;
+                    case KeyEvent.VK_RIGHT :
+                        mediaPlayerComponent.mediaPlayer().controls().skipTime(-10);
+                        break;
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent keyEvent) {
+
+            }
+        });
         mediaPlayerComponent.mediaPlayer().events().addMediaPlayerEventListener(new MediaPlayerEventAdapter() {
             @Override
             public void timeChanged(MediaPlayer mediaPlayer, long newTime) {
                 pbReproduccion.setValue((int) (1000L * newTime / mediaPlayer.status().length()));
             }
         });
+
         pbReproduccion.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -114,22 +152,31 @@ public class Reproductor extends JFrame {
                 pbVolume.setValue(mouseX);
             }
         });
+
     }
+
+
+
+
+
+
 
     public static void main(String[] args) {
-        Reproducir("C:/Users/Mikel/Downloads/Mandalorian 8.mp4");
+//        Reproducir("/home/sweos/Downloads/shrek-01.avi.mp4", 1000);
     }
 
 
 
 
-    public static void Reproducir(String ruta){
+    public static void Reproducir(Sesion sesion,int idPeli,int idUser, String ruta, long timestamp){
         boolean found = (new NativeDiscovery()).discover();
         if (!found) System.setProperty("jna.library.path", ruta_a_vlc);
-        miVentana = new Reproductor();
+        miVentana = new Reproductor(sesion,idUser,idPeli);
         miVentana.mediaPlayerComponent.mediaPlayer().audio().setVolume( 75 );
         miVentana.pbVolume.setValue(miVentana.mediaPlayerComponent.mediaPlayer().audio().volume());
         miVentana.mediaPlayerComponent.mediaPlayer().media().play(ruta);
-}
+        miVentana.mediaPlayerComponent.mediaPlayer().controls().setTime(timestamp);
+        //TODO que salte al timestamp
+    }
 
 }

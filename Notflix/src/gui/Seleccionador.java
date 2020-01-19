@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.management.loading.PrivateClassLoader;
@@ -45,8 +46,8 @@ public class Seleccionador extends JPanel {
     private ArrayList<Usuarios> usuarios;
     private JLabel lUsuarios;
     private JButton bNuevoUsuario;
-   
-    
+
+    public Map<Integer,ArrayList<Integer>> mapaPelisVistas;
 
     public Seleccionador( Sesion sesion ) {
        
@@ -108,6 +109,8 @@ public class Seleccionador extends JPanel {
         
         usuarios = sesion.sacarUsuarios();
         cUsuario = new JComboBox(usuarios.toArray());
+
+        sesion.pelisVistas(mapaPelisVistas);
         
         
         setPreferredSize (new Dimension (756, 574));
@@ -141,7 +144,19 @@ public class Seleccionador extends JPanel {
         lUsuarios.setBounds(460, 35, 150, 30);
         bNuevoUsuario.setBounds(580, 60, 115, 30);
        
-        
+        bVer.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                int indice_usuario = cUsuario.getSelectedIndex();
+                if(mapaPelisVistas.get(usuarios.get(indice_usuario).getId()).contains(peliSel.getId())){
+                Reproductor.Reproducir(sesion, peliSel.getId(), usuarios.get(indice_usuario).getId(), peliSel.getArchi(),sesion.sacarTiempo(peliSel.getId(),usuarios.get(indice_usuario).getId()));//TODO conseguir el string de la peli + el timestamp
+                }
+                else{
+                    sesion.nuevoTiempo(peliSel.getId(),usuarios.get(indice_usuario).getId());
+                    Reproductor.Reproducir(sesion, peliSel.getId(), usuarios.get(indice_usuario).getId(), peliSel.getArchi(),0);
+                }
+            }
+        });
         bAnadir.addActionListener(new ActionListener() {
 			
 			@Override

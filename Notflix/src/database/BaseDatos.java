@@ -16,7 +16,7 @@ public class BaseDatos {
         Connection connection = null;
 
         try {
-            connection = DriverManager.getConnection("jdbc:sqlite:src/database/Database");
+            connection = DriverManager.getConnection("jdbc:sqlite:Notflix/src/database/Database");  //TODO AÑADIR O QUITAR "Notflix/"
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(100);
 
@@ -154,6 +154,7 @@ public class BaseDatos {
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS usuario_peli("
             		+ "id_usuario INTEGER,"
             		+ "id_pelis INTEGER,"
+                    + "tiempo INTEGER default 0,"
             		+ "FOREIGN KEY (id_pelis) REFERENCES peliculas(id_peli),"
             		+ "FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario));");
             

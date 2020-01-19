@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.naming.spi.DirStateFactory.Result;
 
@@ -24,7 +25,7 @@ public class Sesion {
 	 */
 	public void Crear() {
 		try {
-			String url = "jdbc:sqlite:src/database/Database"; //TODO AÑADIR O QUITAR "Notflix/"
+			String url = "jdbc:sqlite:Notflix/src/database/Database"; //TODO AÑADIR O QUITAR "Notflix/"
 			System.out.println("antessss");
 			this.con = DriverManager.getConnection(url);
 			System.out.println(this.con);
@@ -408,7 +409,61 @@ public class Sesion {
 			e.printStackTrace();
 		}
 	}
-	
+
+	public void nuevoTiempo(int idPeli, int idUser){
+		String statemen = "insert into usuario_peli(id_pelis, id_usuario) values("+ idPeli +","+ idUser + ") ";
+		try{
+			PreparedStatement statement = con.prepareStatement(statemen);
+			statement.executeUpdate();
+		}
+		catch (SQLException e){
+			e.printStackTrace();
+		}
+	}
+	public long sacarTiempo(int idPeli, int idUser){
+		long tiempo=0;
+		String statemen = "Select tiempo from usuario_peli where id_usuario =" + idUser + "and id_pelis = " + idPeli + ";";
+		try{
+			PreparedStatement statement = con.prepareStatement(statemen);
+			ResultSet set = statement.executeQuery();
+			tiempo = (long)set.getInt("tiempo");
+			return tiempo;
+		}
+		catch (SQLException e){
+			e.printStackTrace();
+		}
+		return tiempo;
+	}
+	public void modTiempo(long tiempo,int idPeli, int idUser){
+		String statemen = "UPDATE usuario_peli set tiempo = " + tiempo + " where id_usuario =" + idUser + "and id_pelis = " + idPeli + ";";
+		try{
+			PreparedStatement statement = con.prepareStatement(statemen);
+			statement.executeUpdate();
+		}
+		catch (SQLException e){
+			e.printStackTrace();
+		}
+	}
+	public void pelisVistas(Map<Integer,ArrayList<Integer>> mapaPelisVistas){
+		String statemen = "Select * from usuario_peli;";
+		try{
+			PreparedStatement statement = con.prepareStatement(statemen);
+			ResultSet set = statement.executeQuery();
+			while(set.next()){
+				if(mapaPelisVistas.containsKey(set.getInt("id_usuario"))){
+					mapaPelisVistas.get(set.getInt("id_usuario")).add(set.getInt("id_pelis"));
+				}
+				else{
+					ArrayList<Integer> lista = new ArrayList<>();
+					lista.add(set.getInt("id_pelis"));
+					mapaPelisVistas.put(set.getInt("id_usuario"),lista);
+				}
+			}
+		}
+		catch (SQLException e){
+			e.printStackTrace();
+		}
+	}
 	
 	public ArrayList sacarUsuarios() {
 		String statemen = "Select * from usuarios;";

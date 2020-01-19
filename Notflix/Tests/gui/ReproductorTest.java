@@ -8,7 +8,7 @@ public class ReproductorTest {
     public void reproducir(){
         player = new Reproductor();
 
-        player.Reproducir("/home/sweos/Downloads/shrek-01.avi.mp4");
+//        player.Reproducir("/home/sweos/Downloads/shrek-01.avi.mp4");
 
     }
 }

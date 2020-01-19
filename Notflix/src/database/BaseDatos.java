@@ -16,7 +16,7 @@ public class BaseDatos {
         Connection connection = null;
 
         try {
-            connection = DriverManager.getConnection("jdbc:sqlite:Notflix/src/database/Database");  //TODO AÑADIR O QUITAR "Notflix/"
+            connection = DriverManager.getConnection("jdbc:sqlite:src/database/Database");  //TODO AÑADIR O QUITAR "Notflix/"
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(100);
 
@@ -149,7 +149,7 @@ public class BaseDatos {
             System.out.println("hola4");
             statement.executeUpdate("INSERT INTO usuarios (nombre) VALUES ('Ana');");
             
-            System.out.println("hola5");
+            System.out.println("hola5"); 
             
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS usuario_peli("
             		+ "id_usuario INTEGER,"

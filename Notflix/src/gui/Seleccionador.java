@@ -147,7 +147,8 @@ public class Seleccionador extends JPanel {
         bVer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                sesion.pelisVistas(mapaPelisVistas);
+                mapaPelisVistas = sesion.pelisVistas();
+               
                 int indice_usuario = cUsuario.getSelectedIndex();
                 if(mapaPelisVistas.containsKey( usuarios.get(indice_usuario).getId() )
                     &&

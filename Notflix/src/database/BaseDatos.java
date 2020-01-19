@@ -29,6 +29,7 @@ public class BaseDatos {
             statement.executeUpdate("DROP TABLE IF EXISTS tags_peliculas");
             statement.executeUpdate("DROP TABLE IF EXISTS tema");
             statement.executeUpdate("DROP TABLE IF EXISTS idioma");
+            statement.executeUpdate("DROP TABLE IF EXISTS usuario_peli");
             
 
 //            statement.executeUpdate("create table tags(" +

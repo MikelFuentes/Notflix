@@ -8,7 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.naming.spi.DirStateFactory.Result;
@@ -26,7 +25,7 @@ public class Sesion {
 	 */
 	public void Crear() {
 		try {
-			String url = "jdbc:sqlite:src/database/Database"; //TODO AÑADIR O QUITAR "Notflix/"
+			String url = "jdbc:sqlite:Notflix/src/database/Database"; //TODO AÑADIR O QUITAR "Notflix/"
 			System.out.println("antessss");
 			this.con = DriverManager.getConnection(url);
 			System.out.println(this.con);
@@ -423,7 +422,7 @@ public class Sesion {
 	}
 	public long sacarTiempo(int idPeli, int idUser){
 		long tiempo=0;
-		String statemen = "Select tiempo from usuario_peli where id_usuario =" + idUser + " and id_pelis = " + idPeli + ";";
+		String statemen = "Select tiempo from usuario_peli where id_usuario =" + idUser + "and id_pelis = " + idPeli + ";";
 		try{
 			PreparedStatement statement = con.prepareStatement(statemen);
 			ResultSet set = statement.executeQuery();
@@ -436,8 +435,7 @@ public class Sesion {
 		return tiempo;
 	}
 	public void modTiempo(long tiempo,int idPeli, int idUser){
-		String statemen = "UPDATE usuario_peli set tiempo = " + tiempo + " where id_usuario =" + idUser + " and id_pelis = " + idPeli + ";";
-		System.out.println(statemen);
+		String statemen = "UPDATE usuario_peli set tiempo = " + tiempo + " where id_usuario =" + idUser + "and id_pelis = " + idPeli + ";";
 		try{
 			PreparedStatement statement = con.prepareStatement(statemen);
 			statement.executeUpdate();
@@ -446,30 +444,28 @@ public class Sesion {
 			e.printStackTrace();
 		}
 	}
-	public Map pelisVistas(){
-		Map<Integer,ArrayList<Integer>> mapaPelisVistas = new HashMap<Integer, ArrayList<Integer>>();
+	public Map<Integer,ArrayList<Integer>> pelisVistas(Map<Integer,ArrayList<Integer>> mapaPelisVistas){
 		String statemen = "Select * from usuario_peli;";
+        Map<Integer,ArrayList<Integer>> mapaPelis = mapaPelisVistas;
 		try{
 			PreparedStatement statement = con.prepareStatement(statemen);
 			ResultSet set = statement.executeQuery();
-			System.out.println(statemen);
 			while(set.next()){
-				if(mapaPelisVistas.containsKey(set.getInt("id_usuario"))){
-					mapaPelisVistas.get(set.getInt("id_usuario")).add(set.getInt("id_pelis"));
-					System.out.println("entro?¿?¿?¿?¿?¿?¿?¿?¿?¿?¿?");
+				if(mapaPelis.containsKey(set.getInt("id_usuario"))){
+					mapaPelis.get(set.getInt("id_usuario")).add(set.getInt("id_pelis"));
 				}
 				else{
 					ArrayList<Integer> lista = new ArrayList<>();
 					lista.add(set.getInt("id_pelis"));
-					mapaPelisVistas.put(set.getInt("id_usuario"),lista);
+					mapaPelis.put(set.getInt("id_usuario"),lista);
 				}
-			
 			}
+			return mapaPelis;
 		}
 		catch (SQLException e){
 			e.printStackTrace();
 		}
-		return mapaPelisVistas;
+        return mapaPelis;
 	}
 	
 	public ArrayList sacarUsuarios() {

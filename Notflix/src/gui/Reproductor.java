@@ -24,7 +24,7 @@ import java.awt.event.*;
 public class Reproductor extends JFrame {
     private static final long serialVersionUID = 1L;
 
-    private static String ruta_a_vlc="/usr/bin/vlc";//TODO
+    private static final String ruta_a_vlc="/usr/bin/vlc";//TODO
     private static Reproductor miVentana;
     private EmbeddedMediaPlayerComponent mediaPlayerComponent;
     private JProgressBar pbReproduccion;

@@ -6,7 +6,7 @@ public class ReproductorTest {
     private Reproductor player;
     @Test
     public void reproducir(){
-        player = new Reproductor();
+//        player = new Reproductor();
 
 //        player.Reproducir("/home/sweos/Downloads/shrek-01.avi.mp4");
 

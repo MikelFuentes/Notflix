@@ -7,8 +7,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.*;
 
 import javax.naming.spi.DirStateFactory.Result;
 
@@ -422,7 +421,7 @@ public class Sesion {
 	}
 	public long sacarTiempo(int idPeli, int idUser){
 		long tiempo=0;
-		String statemen = "Select tiempo from usuario_peli where id_usuario =" + idUser + "and id_pelis = " + idPeli + ";";
+		String statemen = "Select tiempo from usuario_peli where id_usuario =" + idUser + " and id_pelis = " + idPeli + ";";
 		try{
 			PreparedStatement statement = con.prepareStatement(statemen);
 			ResultSet set = statement.executeQuery();
@@ -435,7 +434,7 @@ public class Sesion {
 		return tiempo;
 	}
 	public void modTiempo(long tiempo,int idPeli, int idUser){
-		String statemen = "UPDATE usuario_peli set tiempo = " + tiempo + " where id_usuario =" + idUser + "and id_pelis = " + idPeli + ";";
+		String statemen = "UPDATE usuario_peli set tiempo = " + tiempo + " where id_usuario =" + idUser + " and id_pelis = " + idPeli + ";";
 		try{
 			PreparedStatement statement = con.prepareStatement(statemen);
 			statement.executeUpdate();
@@ -444,9 +443,9 @@ public class Sesion {
 			e.printStackTrace();
 		}
 	}
-	public Map<Integer,ArrayList<Integer>> pelisVistas(Map<Integer,ArrayList<Integer>> mapaPelisVistas){
+	public Map<Integer,ArrayList<Integer>> pelisVistas(){
 		String statemen = "Select * from usuario_peli;";
-        Map<Integer,ArrayList<Integer>> mapaPelis = mapaPelisVistas;
+        Map<Integer,ArrayList<Integer>> mapaPelis = new HashMap<>();
 		try{
 			PreparedStatement statement = con.prepareStatement(statemen);
 			ResultSet set = statement.executeQuery();

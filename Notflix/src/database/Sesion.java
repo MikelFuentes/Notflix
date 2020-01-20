@@ -24,7 +24,7 @@ public class Sesion {
 	 */
 	public void Crear() {
 		try {
-			String url = "jdbc:sqlite:Notflix/src/database/Database"; //TODO AÑADIR O QUITAR "Notflix/"
+			String url = "jdbc:sqlite:src/database/Database"; //TODO AÑADIR O QUITAR "Notflix/"
 			System.out.println("antessss");
 			this.con = DriverManager.getConnection(url);
 			System.out.println(this.con);

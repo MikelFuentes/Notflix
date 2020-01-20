@@ -16,6 +16,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.plaf.metal.DefaultMetalTheme;
 
+import database.BaseDatos;
 import database.Documental;
 import database.Pelicula;
 import database.Sesion;
@@ -148,7 +149,7 @@ public class Seleccionador extends JPanel {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 mapaPelisVistas = sesion.pelisVistas();
-               
+                              
                 int indice_usuario = cUsuario.getSelectedIndex();
                 if(mapaPelisVistas.containsKey( usuarios.get(indice_usuario).getId() )
                     &&
@@ -245,9 +246,10 @@ public class Seleccionador extends JPanel {
 
 
     public static void main (String[] args) {
+    	BaseDatos base = new BaseDatos();
+    	base.crearBD();
     	Sesion sesion = new Sesion();
     	sesion.Crear();
-    	
         JFrame frame = new JFrame ("Seleccionador");
         frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add (new Seleccionador(sesion));

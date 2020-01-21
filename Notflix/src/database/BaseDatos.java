@@ -16,7 +16,7 @@ public class BaseDatos {
         Connection connection = null;
 
         try {
-            connection = DriverManager.getConnection("jdbc:sqlite:src/database/Database");  //TODO AÑADIR O QUITAR "Notflix/"
+            connection = DriverManager.getConnection("jdbc:sqlite:Notflix/src/database/Database");  //TODO AÑADIR O QUITAR "Notflix/"
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(100);
 

@@ -241,6 +241,7 @@ public class Seleccionador extends JPanel {
     public void actualizarUsuarios(Sesion ses) {
 		cUsuario.removeAllItems();
 		cUsuario.setModel(new DefaultComboBoxModel(ses.sacarUsuarios().toArray()));
+		usuarios = ses.sacarUsuarios();
 		
 	}
 
